@@ -3,19 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/ThucHanh/CNPM_23/src/models/ThanhVienCuaHoModel.java</file>
-            <file>file:/D:/ThucHanh/CNPM_23/src/utility/ClassTableModel.java</file>
-            <file>file:/D:/ThucHanh/CNPM_23/src/utility/TableModelHoKhau.java</file>
-            <file>file:/D:/ThucHanh/CNPM_23/src/services/StringService.java</file>
-            <file>file:/D:/ThucHanh/CNPM_23/src/quanlynhankhau/QuanLyNhanKhau.java</file>
-            <file>file:/D:/ThucHanh/CNPM_23/src/controllers/NhanKhauManagerController/AddNewController.java</file>
-            <file>file:/D:/ThucHanh/CNPM_23/src/views/HoKhauManagePanel.java</file>
-            <file>file:/D:/ThucHanh/CNPM_23/src/controllers/MainController.java</file>
-            <file>file:/D:/ThucHanh/CNPM_23/src/Bean/MemOfFamily.java</file>
-            <file>file:/D:/ThucHanh/CNPM_23/src/Bean/HoKhauBean.java</file>
-            <file>file:/D:/ThucHanh/CNPM_23/src/Bean/DanhMucBean.java</file>
-            <file>file:/D:/ThucHanh/CNPM_23/src/services/HoKhauService.java</file>
-            <file>file:/D:/ThucHanh/CNPM_23/src/Bean/NhanKhauBean.java</file>
+            <file>file:/D:/ThucHanh/CNPM/CNPM_CC/src/views/MainFrame.java</file>
+            <file>file:/D:/ThucHanh/CNPM/CNPM_CC/src/views/LoginUI.java</file>
         </group>
     </open-files>
 </project-private>
