@@ -14,7 +14,7 @@ import java.sql.*;
 public class JDBCConnection {
     public static Connection getMysqlConnection() throws SQLException, ClassNotFoundException {
         String hostName = "localhost";
-        String dbName = "cnpm";
+        String dbName = "cnpm23";
         String userName = "root";
         String password = "";
         return getMysqlConnection(hostName, dbName, userName, password);

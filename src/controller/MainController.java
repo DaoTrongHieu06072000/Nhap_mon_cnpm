@@ -28,8 +28,8 @@ public class MainController {
     // set panel for root
     public void setView(JPanel jpnItem, JLabel jlbItem, String kind) {
         this.kindSelected = kind;
-        jpnItem.setBackground(new Color(0,255,0));
-        jlbItem.setBackground(new Color(0,255,0));
+        jpnItem.setBackground(new Color(0,255,204));
+        jlbItem.setBackground(new Color(0,255,204));
         JPanel view = new  JPanel();
         switch(kind) {
                 case "TrangChu":
@@ -109,15 +109,15 @@ public class MainController {
             root.validate();
             root.repaint();
             setDefaultColor();
-            jlbItem.setBackground(new Color(0,255,0));
-            jpnItem.setBackground(new Color(0,255,0));
+            jlbItem.setBackground(new Color(0,255,204));
+            jpnItem.setBackground(new Color(0,255,204));
         }        
 
         @Override
         public void mousePressed(MouseEvent e) {
             kindSelected = kind;
-            jlbItem.setBackground(Color.green);
-            jpnItem.setBackground(Color.green);
+            jlbItem.setBackground(new Color(0,255,204));
+            jpnItem.setBackground(new Color(0,255,204));
         }
 
         @Override
@@ -126,8 +126,8 @@ public class MainController {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            jlbItem.setBackground(Color.green);
-            jpnItem.setBackground(Color.green);
+            jlbItem.setBackground(new Color(0,255,204));
+            jpnItem.setBackground(new Color(0,255,204));
         }
 
         @Override
