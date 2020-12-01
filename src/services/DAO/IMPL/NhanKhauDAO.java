@@ -26,7 +26,15 @@ public class NhanKhauDAO extends AbstractDAO<NhanKhauModel> implements INhanKhau
     public NhanKhauModel findById(int id) {
         String sql = "SELECT * FROM nhan_khau WHERE ID = ?";
         List<NhanKhauModel> nhanKhauModels = query(sql, new NhanKhauMapper(), id);
-        return nhanKhauModels.isEmpty()? null: nhanKhauModels.get(0);
+        return nhanKhauModels.isEmpty() ? null : nhanKhauModels.get(0);
+    }
+
+    @Override
+    public  List<NhanKhauModel> findByName(String hoten) {
+        String sql = "SELECT * FORM nhan_khau WHERE hoTen LIKE ?";
+        String bien = "'%" + hoten +"%'";
+        return query(sql, new NhanKhauMapper(), bien);
+        //return listnhanKhauModels;
     }
     
 }
