@@ -1,7 +1,5 @@
 package services.DAO.IMPL;
 
-
-
 import services.DAO.IPhiVeSinhDAO;
 import services.Mapper.PhiVeSinhMapper;
 
@@ -9,6 +7,7 @@ import java.util.List;
 import model.PhiVeSinhModel;
 
 public class PhiVeSinhDAO extends AbstractDAO<PhiVeSinhModel> implements IPhiVeSinhDAO {
+
     @Override
     public List<PhiVeSinhModel> findAll() {
         String sql = "SELECT * FROM phi_ve_sinh";
@@ -37,5 +36,18 @@ public class PhiVeSinhDAO extends AbstractDAO<PhiVeSinhModel> implements IPhiVeS
         String sql = "SELECT COUNT(*) FROM phi_ve_sinh";
         return count(sql);
 
+    }
+
+    public List<PhiVeSinhModel> getAllYear() {
+        //List<Integer> listNam;
+        String sql = " SELECT * FROM phi_ve_sinh GROUP BY Nam";
+        return query(sql, new PhiVeSinhMapper());
+
+    }
+
+    @Override
+    public List<PhiVeSinhModel> findByYear(String year) {
+       String sql = "SELECT * FROM phi_ve_sinh WHERE Nam = ?";
+       return query(sql, new PhiVeSinhMapper(), year);
     }
 }

@@ -29,10 +29,18 @@ public class TrangChu extends javax.swing.JPanel {
 
     PhiVeSinhDAO phiVeSinhDAO = new PhiVeSinhDAO();
     private TrangChuController trangChuController;
+    String nam;
 
     public TrangChu() {
         initComponents();
-        this.trangChuController = new TrangChuController(soHoThujLabel8, jLabel7, jLabel14, soHoThujLabel10, soHoThujLabel9);
+
+        //Lay du lieu cho combobox
+        List<PhiVeSinhModel> listNam = phiVeSinhDAO.getAllYear();
+        for (PhiVeSinhModel p : listNam) {
+            jComboBox1.addItem(p.getNam().toString());
+        }
+        nam = (String) jComboBox1.getSelectedItem();
+        this.trangChuController = new TrangChuController(soHoThujLabel8, jLabel7, jLabel14, soHoThujLabel10, soHoThujLabel9, nam);
         this.trangChuController.setData();
 
         //bieu do thu phi vs
@@ -50,7 +58,6 @@ public class TrangChu extends javax.swing.JPanel {
         GraphDGjPanel6.validate();
         GraphDGjPanel6.setSize(600, 400);
 
-        //System.out.println(soHoDaThu  +"\n"+ TongSoHo);
     }
 
     public JFreeChart createChart1() {
@@ -74,7 +81,7 @@ public class TrangChu extends javax.swing.JPanel {
     }
 
     private PieDataset createDataset() {
-        List<PhiVeSinhModel> listPhiVS = phiVeSinhDAO.findAll();
+        List<PhiVeSinhModel> listPhiVS = phiVeSinhDAO.findByYear(nam);
         int soHoDaThu = 0, tongPhiVS = 0, tongsoho = 0;
         for (PhiVeSinhModel phiVeSinhModel : listPhiVS) {
             if (phiVeSinhModel.getDaThu() == 1) {
@@ -147,7 +154,7 @@ public class TrangChu extends javax.swing.JPanel {
         jLabel4.setText("Số Hộ Đã Thu:");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel5.setText("Số Tiền/Nhân Khẩu:");
+        jLabel5.setText("Số Tiền/NK/năm:");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setText("Tổng Tiền Thu Được:");
@@ -156,7 +163,7 @@ public class TrangChu extends javax.swing.JPanel {
         soHoThujLabel8.setText("5/15 hộ");
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel9.setText("6.000 vnđ");
+        jLabel9.setText("72,000 vnđ");
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -214,7 +221,7 @@ public class TrangChu extends javax.swing.JPanel {
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(soHoThujLabel8)
                                     .addComponent(jLabel9))
-                                .addGap(0, 97, Short.MAX_VALUE)))
+                                .addGap(0, 86, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
         jPanel4Layout.setVerticalGroup(
@@ -426,7 +433,11 @@ public class TrangChu extends javax.swing.JPanel {
 
         jComboBox1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jComboBox1.setMaximumRowCount(5);
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2020", "" }));
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
         jLabel3.setText("Phố Tạ Quang Bửu, Quận Hai Bà Trưng, Hà Nội");
@@ -443,8 +454,8 @@ public class TrangChu extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         layout.setVerticalGroup(
@@ -474,6 +485,28 @@ public class TrangChu extends javax.swing.JPanel {
         // TODO add your handling code here:
         new ChiTietPhiDG().setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        // TODO add your handling code here:
+        nam = (String) jComboBox1.getSelectedItem();
+        this.trangChuController = new TrangChuController(soHoThujLabel8, jLabel7, jLabel14, soHoThujLabel10, soHoThujLabel9, nam);
+        this.trangChuController.setData();
+
+        //bieu do thu phi vs
+        JFreeChart pieChart = createChart(createDataset());
+        ChartPanel chartPanel = new ChartPanel(pieChart);
+        GraphjPanel1.removeAll();
+        GraphjPanel1.add(chartPanel, BorderLayout.CENTER);
+        GraphjPanel1.validate();
+        GraphjPanel1.setSize(600, 400);
+
+        //biểu đồ đóng góp
+        ChartPanel chartPanel1 = new ChartPanel(createChart1());
+        GraphDGjPanel6.removeAll();
+        GraphDGjPanel6.add(chartPanel1, BorderLayout.CENTER);
+        GraphDGjPanel6.validate();
+        GraphDGjPanel6.setSize(600, 400);
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

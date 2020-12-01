@@ -28,26 +28,29 @@ public class TrangChuController {
     private JLabel TongtienPhiDGJLabel;
     private JLabel tongSoDotMoJLabel;
     private JLabel tongSoSKjJLabel;
+    private String nam;
     private int a, b;
 
     public TrangChuController(JLabel soHoDaThuJLabel, JLabel TongTienPhiVSJLabel,
-            JLabel TongtienPhiDGJLabel, JLabel tongSoDotMoJLabel, JLabel tongSoSKjJLabel) {
+            JLabel TongtienPhiDGJLabel, JLabel tongSoDotMoJLabel, JLabel tongSoSKjJLabel , String nam) {
         this.TongTienPhiVSJLabel = TongTienPhiVSJLabel;
         this.TongtienPhiDGJLabel = TongtienPhiDGJLabel;
         this.soHoDaThuJLabel = soHoDaThuJLabel;
         this.tongSoDotMoJLabel = tongSoDotMoJLabel;
         this.tongSoSKjJLabel = tongSoSKjJLabel;
+        this.nam = nam;
     }
 
     public void setData() {
-        List<PhiVeSinhModel> listPhiVS = phiVeSinhDAO.findAll();
+        List<PhiVeSinhModel> listPhiVS = phiVeSinhDAO.findByYear(nam);
         int soHoDaThu = 0, tongPhiVS = 0, tongsoho = 0;
         for (PhiVeSinhModel phiVeSinhModel : listPhiVS) {
             if (phiVeSinhModel.getDaThu() == 1) {
                 soHoDaThu++;
+                tongPhiVS += phiVeSinhModel.getPhiVeSinh();
             }
             tongsoho++;
-            tongPhiVS += phiVeSinhModel.getPhiVeSinh();
+            
         }
         soHoDaThuJLabel.setText(String.valueOf(soHoDaThu) + "/" + String.valueOf(tongsoho) + " hộ");
         TongTienPhiVSJLabel.setText(String.format("%,.0f",(double)tongPhiVS));

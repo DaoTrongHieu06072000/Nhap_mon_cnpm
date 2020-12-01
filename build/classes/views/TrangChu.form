@@ -41,8 +41,8 @@
                   <Group type="102" attributes="0">
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="100" max="32767" attributes="0"/>
+                      <Component id="jComboBox1" min="-2" pref="85" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jLabel3" min="-2" pref="431" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -175,7 +175,7 @@
                                               <Component id="soHoThujLabel8" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="0" pref="97" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="86" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -241,7 +241,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Tahoma" size="18" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="S&#x1ed1; Ti&#x1ec1;n/Nh&#xe2;n Kh&#x1ea9;u:"/>
+                    <Property name="text" type="java.lang.String" value="S&#x1ed1; Ti&#x1ec1;n/NK/n&#x103;m:"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel6">
@@ -265,7 +265,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Tahoma" size="18" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="6.000 vn&#x111;"/>
+                    <Property name="text" type="java.lang.String" value="72,000 vn&#x111;"/>
                   </Properties>
                 </Component>
                 <Container class="javax.swing.JPanel" name="jPanel5">
@@ -608,12 +608,12 @@
         </Property>
         <Property name="maximumRowCount" type="int" value="5"/>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="2">
-            <StringItem index="0" value="2020"/>
-            <StringItem index="1" value=""/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jComboBox1ItemStateChanged"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>

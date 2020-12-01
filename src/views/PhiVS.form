@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="66" green="cc" red="ff" type="rgb"/>
@@ -47,20 +47,20 @@
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="jTextField1" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButton3" min="-2" pref="97" max="-2" attributes="0"/>
+                      <Component id="searchjButton3" min="-2" pref="97" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" min="-2" pref="369" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jButton1" max="32767" attributes="0"/>
+                  <Component id="AddnewDSjButton1" pref="267" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jComboBox1" min="-2" pref="85" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jPanel1" max="32767" attributes="0"/>
+                  <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -71,10 +71,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jButton3" min="-2" pref="38" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="searchjButton3" alignment="0" min="-2" pref="38" max="-2" attributes="0"/>
                   <Component id="jTextField1" min="-2" pref="38" max="-2" attributes="0"/>
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="jComboBox1" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
@@ -91,7 +88,7 @@
                   <Component id="jToggleButton1" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
                   <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jTextField2" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
-                  <Component id="jButton1" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
+                  <Component id="AddnewDSjButton1" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
           </Group>
@@ -140,7 +137,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
+        <Component class="javax.swing.JTable" name="pvsjTable1">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="ff" red="ff" type="rgb"/>
@@ -211,7 +208,7 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="AddnewDSjButton1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="99" red="ff" type="rgb"/>
@@ -227,8 +224,8 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton1MouseEntered"/>
-        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton1MouseExited"/>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="AddnewDSjButton1MouseEntered"/>
+        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="AddnewDSjButton1MouseExited"/>
       </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
@@ -271,7 +268,7 @@
                               <Component id="jLabel8" min="-2" pref="88" max="-2" attributes="0"/>
                               <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="23" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
@@ -413,7 +410,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Ph&#xed;VS/Nh&#xe2;n Kh&#x1ea9;u: "/>
+            <Property name="text" type="java.lang.String" value="Ph&#xed;VS/NK/1n&#x103;m: "/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel12">
@@ -421,7 +418,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="18" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="6.000&#x111;/ng"/>
+            <Property name="text" type="java.lang.String" value="72,000&#x111;/ng"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -441,7 +438,7 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton3">
+    <Component class="javax.swing.JButton" name="searchjButton3">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="99" red="ff" type="rgb"/>
@@ -457,8 +454,8 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton3MouseEntered"/>
-        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton3MouseExited"/>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="searchjButton3MouseEntered"/>
+        <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="searchjButton3MouseExited"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel13">
