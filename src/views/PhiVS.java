@@ -6,7 +6,16 @@
 package views;
 
 import java.awt.Color;
+import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.HoKhauModel;
+import model.NhanKhauModel;
+import model.PhiVeSinhModel;
+import services.DAO.IMPL.HoKhauDAO;
+import services.DAO.IMPL.NhanKhauDAO;
+import services.DAO.IMPL.PhiVeSinhDAO;
 
 /**
  *
@@ -14,14 +23,38 @@ import javax.swing.JFrame;
  */
 public class PhiVS extends javax.swing.JPanel {
 
-    /**
-     * Creates new form PhiVS
-     */
+    PhiVeSinhDAO phiVeSinhDAO = new PhiVeSinhDAO();
+    HoKhauDAO hkdao = new HoKhauDAO();
+    NhanKhauDAO nhanKhauDAO = new NhanKhauDAO();
+    String nam;
+    DefaultTableModel dtm = new DefaultTableModel();
+
     private JFrame parentFrame;
 
     public PhiVS(JFrame parentFrame) {
+        dtm.setRowCount(0);
         this.parentFrame = parentFrame;
         initComponents();
+        List<PhiVeSinhModel> listNam = phiVeSinhDAO.getAllYear();
+        for (PhiVeSinhModel p : listNam) {
+            jComboBox1.addItem(p.getNam().toString());
+        }
+        nam = (String) jComboBox1.getSelectedItem();
+
+        //setData();
+    }
+
+    public void setData() {
+
+        dtm = (DefaultTableModel) pvsjTable1.getModel();
+        List<PhiVeSinhModel> listPsv = phiVeSinhDAO.findByYear(nam);
+        for (PhiVeSinhModel phiVeSinhModel : listPsv) {
+
+            HoKhauModel a = hkdao.findByIdHoKhau(phiVeSinhModel.getIdHoKhau());
+            NhanKhauModel b = nhanKhauDAO.findById(a.getIdChuHo());
+            dtm.addRow(new Object[]{phiVeSinhModel.getIdPhiVeSinh(), a.getMaHoKhau(), b.getHoTen(), phiVeSinhModel.getSoNhanKhau(), phiVeSinhModel.getDaThu()});
+        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -32,7 +65,6 @@ public class PhiVS extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         pvsjTable1 = new javax.swing.JTable();
-        jToggleButton1 = new javax.swing.JToggleButton();
         AddnewDSjButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -51,6 +83,7 @@ public class PhiVS extends javax.swing.JPanel {
         searchjButton3 = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
+        trangthai = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 204, 102));
         setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Quản Lý Phí Vệ Sinh", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 18))); // NOI18N
@@ -58,10 +91,13 @@ public class PhiVS extends javax.swing.JPanel {
 
         jComboBox1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jComboBox1.setMaximumRowCount(5);
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2018", "2019", "2020", "" }));
-        jComboBox1.setSelectedIndex(2);
         jComboBox1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         jComboBox1.setName("Năm"); // NOI18N
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Năm:");
@@ -70,37 +106,17 @@ public class PhiVS extends javax.swing.JPanel {
         pvsjTable1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         pvsjTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "STT", "Mã Hộ Khẩu", "Tên chủ hộ", "Đã Thu"
+                "Mã", "Mã Hộ Khẩu", "Tên chủ hộ", "Số Người", "Đã Thu"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -109,6 +125,11 @@ public class PhiVS extends javax.swing.JPanel {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        pvsjTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pvsjTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(pvsjTable1);
@@ -120,13 +141,6 @@ public class PhiVS extends javax.swing.JPanel {
             pvsjTable1.getColumnModel().getColumn(2).setPreferredWidth(130);
             pvsjTable1.getColumnModel().getColumn(2).setMaxWidth(130);
         }
-
-        jToggleButton1.setBackground(new java.awt.Color(0, 255, 0));
-        jToggleButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jToggleButton1.setText("Đã Thu");
-        jToggleButton1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        jToggleButton1.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8-checked-60.png"))); // NOI18N
-        jToggleButton1.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8-checked-60.png"))); // NOI18N
 
         AddnewDSjButton1.setBackground(new java.awt.Color(255, 153, 0));
         AddnewDSjButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -164,19 +178,19 @@ public class PhiVS extends javax.swing.JPanel {
         jLabel7.setText("24.000 vnd");
         jLabel7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
         jLabel8.setText("4 người");
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
         jLabel9.setText("KSJDLKVCVC");
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
         jLabel10.setText("Tô Hoài Sơn");
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel11.setText("PhíVS/NK/1năm: ");
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
         jLabel12.setText("72,000đ/ng");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -189,25 +203,27 @@ public class PhiVS extends javax.swing.JPanel {
                     .addComponent(jSeparator1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jLabel4))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -268,6 +284,15 @@ public class PhiVS extends javax.swing.JPanel {
         jTextField2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jTextField2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
+        trangthai.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        trangthai.setText("Trạng thái");
+        trangthai.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        trangthai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                trangthaiActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -278,69 +303,130 @@ public class PhiVS extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField2)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(trangthai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(searchjButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(AddnewDSjButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(AddnewDSjButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(33, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(searchjButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(searchjButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AddnewDSjButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(AddnewDSjButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(trangthai, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddnewDSjButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddnewDSjButton1MouseEntered
         // TODO add your handling code here:
-        
-        AddnewDSjButton1.setBackground(new Color(0,255,204));
+
+        AddnewDSjButton1.setBackground(new Color(0, 255, 204));
     }//GEN-LAST:event_AddnewDSjButton1MouseEntered
 
     private void AddnewDSjButton1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddnewDSjButton1MouseExited
         // TODO add your handling code here:
-        AddnewDSjButton1.setBackground(new Color(255,153,0));
+        AddnewDSjButton1.setBackground(new Color(255, 153, 0));
     }//GEN-LAST:event_AddnewDSjButton1MouseExited
 
     private void searchjButton3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchjButton3MouseEntered
         // TODO add your handling code here:
-        searchjButton3.setBackground(new Color(0,255,204));
+        searchjButton3.setBackground(new Color(0, 255, 204));
     }//GEN-LAST:event_searchjButton3MouseEntered
 
     private void searchjButton3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchjButton3MouseExited
         // TODO add your handling code here:
-        searchjButton3.setBackground(new Color(255,153,0));
+        searchjButton3.setBackground(new Color(255, 153, 0));
     }//GEN-LAST:event_searchjButton3MouseExited
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        // TODO add your handling code here:
+        dtm.setRowCount(0);
+        nam = (String) jComboBox1.getSelectedItem();
+        setData();
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void pvsjTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pvsjTable1MouseClicked
+        // TODO add your handling code here:
+        //set gia tri cho cai o duoi
+        int row = pvsjTable1.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(PhiVS.this, "Chọn một dòng để xem thông tin");
+        } else {
+
+            String MaHK = String.valueOf(pvsjTable1.getValueAt(row, 1));
+            int daThu = (Integer) pvsjTable1.getValueAt(row, 4);
+            jTextField2.setText("    " + MaHK);
+            if (daThu == 0) {
+                trangthai.setText("Chưa thu");
+                trangthai.setBackground(Color.red);
+
+            } else if (daThu == 1) {
+                trangthai.setText("Đã thu");
+
+                trangthai.setBackground(Color.green);
+            }
+
+            //chi tiet
+            jLabel9.setText(String.valueOf(pvsjTable1.getValueAt(row, 1)));
+            jLabel10.setText(String.valueOf(pvsjTable1.getValueAt(row, 2)));
+            //jLabel8.setText(String.valueOf(pvsjTable1.getValueAt(row, 3)));
+            String aaa = String.valueOf(pvsjTable1.getValueAt(row, 3));
+            jLabel8.setText(aaa + "  người");
+            String snguoi[] = aaa.split(" ");
+            jLabel7.setText(String.format("%,.0f", (double) Integer.valueOf(snguoi[0]) * 72000) + " vnd");
+        }
+
+
+    }//GEN-LAST:event_pvsjTable1MouseClicked
+
+    private void trangthaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trangthaiActionPerformed
+        // TODO add your handling code here:
+        if (trangthai.getText().equals("Chưa thu")) {
+            trangthai.setText("Đã thu");
+            trangthai.setBackground(Color.green);
+            int row = pvsjTable1.getSelectedRow();
+            String IDphivs = String.valueOf(pvsjTable1.getValueAt(row, 0));
+            PhiVeSinhModel pvsm = phiVeSinhDAO.findById(IDphivs);
+            pvsm.setDaThu(1);
+            phiVeSinhDAO.update(pvsm);
+            JOptionPane.showMessageDialog(PhiVS.this, "Thu thành công!");
+            dtm.setRowCount(0);
+            nam = (String) jComboBox1.getSelectedItem();
+            setData();
+
+        } else {
+            JOptionPane.showMessageDialog(PhiVS.this, "Đã Thu!");
+        }
+    }//GEN-LAST:event_trangthaiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -367,8 +453,8 @@ public class PhiVS extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JTable pvsjTable1;
     private javax.swing.JButton searchjButton3;
+    private javax.swing.JButton trangthai;
     // End of variables declaration//GEN-END:variables
 }

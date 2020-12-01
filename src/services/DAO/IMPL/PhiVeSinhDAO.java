@@ -50,4 +50,11 @@ public class PhiVeSinhDAO extends AbstractDAO<PhiVeSinhModel> implements IPhiVeS
        String sql = "SELECT * FROM phi_ve_sinh WHERE Nam = ?";
        return query(sql, new PhiVeSinhMapper(), year);
     }
+
+    @Override
+    public PhiVeSinhModel findById(String id) {
+        String sql = "SELECT * FROM phi_ve_sinh WHERE idphi_ve_sinh = ?";
+        List<PhiVeSinhModel> phiVeSinhModels = query(sql, new PhiVeSinhMapper(), id);
+        return phiVeSinhModels.isEmpty()? null: phiVeSinhModels.get(0);
+    }
 }

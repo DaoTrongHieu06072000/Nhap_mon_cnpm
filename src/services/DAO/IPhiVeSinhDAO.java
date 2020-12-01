@@ -9,5 +9,6 @@ public interface IPhiVeSinhDAO extends GenericDAO<PhiVeSinhModel> {
     List<PhiVeSinhModel> findByYear(String year);
     Long save(PhiVeSinhModel phiVeSinhModel);
     void update(PhiVeSinhModel updatePhiVeSinh);
+    PhiVeSinhModel findById(String id);
     int getTotalItem();
 }

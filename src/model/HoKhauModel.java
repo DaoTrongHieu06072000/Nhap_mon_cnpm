@@ -12,13 +12,14 @@ import java.util.Date;
  * @author sonso
  */
 public class HoKhauModel {
+
     private int ID;
     private String maHoKhau;
     private int idChuHo;
     private String maKhuVuc;
     private String diaChi;
     private Date ngayLap;
-    private Date ngayChuyDi;
+    private Date ngayChuyenDi;
     private String lyDoChuyen;
     private int nguoiThucHien;
 
@@ -70,12 +71,12 @@ public class HoKhauModel {
         this.ngayLap = ngayLap;
     }
 
-    public Date getNgayChuyDi() {
-        return ngayChuyDi;
+    public Date getNgayChuyenDi() {
+        return ngayChuyenDi;
     }
 
-    public void setNgayChuyDi(Date ngayChuyDi) {
-        this.ngayChuyDi = ngayChuyDi;
+    public void setNgayChuyenDi(Date ngayChuyenDi) {
+        this.ngayChuyenDi = ngayChuyenDi;
     }
 
     public String getLyDoChuyen() {

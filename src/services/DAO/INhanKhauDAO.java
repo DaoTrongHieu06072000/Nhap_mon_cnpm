@@ -6,4 +6,5 @@ import model.NhanKhauModel;
 
 public interface INhanKhauDAO extends GenericDAO<NhanKhauModel> {
     List<NhanKhauModel> findAll();
+    NhanKhauModel findById(int id);
 }

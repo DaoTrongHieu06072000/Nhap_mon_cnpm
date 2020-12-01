@@ -6,4 +6,5 @@ import model.HoKhauModel;
 
 public interface IHoKhauDAO extends GenericDAO<HoKhauModel> {
     List<HoKhauModel> findAll();
+    HoKhauModel findByIdHoKhau(int idHoKhau);
 }
