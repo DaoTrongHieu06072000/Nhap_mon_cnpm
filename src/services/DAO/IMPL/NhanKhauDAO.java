@@ -30,9 +30,9 @@ public class NhanKhauDAO extends AbstractDAO<NhanKhauModel> implements INhanKhau
     }
 
     @Override
-    public  List<NhanKhauModel> findByName(String hoten) {
-        String sql = "SELECT * FORM nhan_khau WHERE hoTen LIKE ?";
-        String bien = "'%" + hoten +"%'";
+    public  List<NhanKhauModel> findByName(String hoten ) {
+        String sql = "SELECT * FROM nhan_khau WHERE hoTen LIKE ? ";
+        String bien = "%" + hoten +"%";
         return query(sql, new NhanKhauMapper(), bien);
         //return listnhanKhauModels;
     }

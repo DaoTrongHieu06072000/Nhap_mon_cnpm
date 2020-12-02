@@ -13,9 +13,11 @@ import javax.swing.table.DefaultTableModel;
 import model.HoKhauModel;
 import model.NhanKhauModel;
 import model.PhiVeSinhModel;
+import model.ThanhVienCuaHoModel;
 import services.DAO.IMPL.HoKhauDAO;
 import services.DAO.IMPL.NhanKhauDAO;
 import services.DAO.IMPL.PhiVeSinhDAO;
+import services.DAO.IMPL.ThanhVienCuaHoDAO;
 
 /**
  *
@@ -23,6 +25,7 @@ import services.DAO.IMPL.PhiVeSinhDAO;
  */
 public class PhiVS extends javax.swing.JPanel {
 
+    ThanhVienCuaHoDAO tvchDAO = new ThanhVienCuaHoDAO();
     PhiVeSinhDAO phiVeSinhDAO = new PhiVeSinhDAO();
     HoKhauDAO hkdao = new HoKhauDAO();
     NhanKhauDAO nhanKhauDAO = new NhanKhauDAO();
@@ -457,7 +460,9 @@ public class PhiVS extends javax.swing.JPanel {
 
     private void trangthaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trangthaiActionPerformed
         // TODO add your handling code here:
-        if (trangthai.getText().equals("Chưa thu")) {
+        if (trangthai.getText().equalsIgnoreCase("trạng thái")) {
+            JOptionPane.showMessageDialog(PhiVS.this, "Trạng thái thu phí!");
+        } else if (trangthai.getText().equals("Chưa thu")) {
             if (JOptionPane.showConfirmDialog(null, "Xác Nhận Thu Tiền?", "Xác Nhận Thu Tiền", JOptionPane.YES_NO_OPTION) == 0) {
                 trangthai.setText("Đã thu");
                 trangthai.setBackground(Color.green);
@@ -472,47 +477,82 @@ public class PhiVS extends javax.swing.JPanel {
                 setData();
             }
         } else {
-            JOptionPane.showMessageDialog(PhiVS.this, "Hộ Đã Thu!", "Thông báo" , 1);
+            JOptionPane.showMessageDialog(PhiVS.this, "Hộ Đã Thu!", "Thông báo", 1);
         }
+
+
     }//GEN-LAST:event_trangthaiActionPerformed
 
     private void searchjButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchjButton3ActionPerformed
         // TODO add your handling code here:
         //jLabel14.setForeground(new Color(0, 255, 204));
-        String ten = jTextField1.getText().toLowerCase();
-        if (ten.equals("")) {
+//        String ten = jTextField1.getText().toLowerCase();
+//        if (ten.equals("")) {
+//            dtm.setRowCount(0);
+//            jLabel14.setText("* Nhập tên chủ hộ cần tìm kiếm!");
+//            setData();
+//        }
+//        int row = pvsjTable1.getRowCount();
+//        if (row > 0) {
+//            for (int i = 0; i < row; i++) {
+//                jLabel14.setForeground(Color.BLACK);
+//                jLabel14.setText("* Nhập tên chủ hộ cần tìm kiếm!");
+//                String hoten = String.valueOf(pvsjTable1.getValueAt(i, 2)).toLowerCase();
+//                if (hoten.equalsIgnoreCase(ten)) {
+//                    String a1 = String.valueOf(pvsjTable1.getValueAt(i, 0));
+//                    String a2 = String.valueOf(pvsjTable1.getValueAt(i, 1));
+//                    String a3 = String.valueOf(pvsjTable1.getValueAt(i, 2));
+//                    String a4 = String.valueOf(pvsjTable1.getValueAt(i, 3));
+//                    int a5 = (Integer) pvsjTable1.getValueAt(i, 4);;
+//                    dtm.setRowCount(0);
+//                    dtm.addRow(new Object[]{a1, a2, a3, a4, a5});
+//                    break;
+//                } else {
+//                    //dtm.setRowCount(0);
+//                    jLabel14.setText("* Không có kết quả tương ứng!");
+//                    jLabel14.setForeground(Color.RED);
+//                }
+//            }
+//        } else {
+//            setData();
+//        }
+
+        if (jTextField1.getText().equals("")) {
             dtm.setRowCount(0);
-            jLabel14.setText("* Nhập tên chủ hộ cần tìm kiếm!");
             setData();
-        }
-        int row = pvsjTable1.getRowCount();
-        if (row > 0) {
-            for (int i = 0; i < row; i++) {
-                jLabel14.setForeground(Color.BLACK);
-                jLabel14.setText("* Nhập tên chủ hộ cần tìm kiếm!");
-                String hoten = String.valueOf(pvsjTable1.getValueAt(i, 2)).toLowerCase();
-                if (hoten.equalsIgnoreCase(ten)) {
-                    String a1 = String.valueOf(pvsjTable1.getValueAt(i, 0));
-                    String a2 = String.valueOf(pvsjTable1.getValueAt(i, 1));
-                    String a3 = String.valueOf(pvsjTable1.getValueAt(i, 2));
-                    String a4 = String.valueOf(pvsjTable1.getValueAt(i, 3));
-                    int a5 = (Integer) pvsjTable1.getValueAt(i, 4);;
-                    dtm.setRowCount(0);
-                    dtm.addRow(new Object[]{a1, a2, a3, a4, a5});
-                    break;
-                } else {
-                    //dtm.setRowCount(0);
-                    jLabel14.setText("* Không có kết quả tương ứng!");
-                    jLabel14.setForeground(Color.RED);
+        } else {
+            dtm.setRowCount(0);
+            String ten = jTextField1.getText();
+            List<NhanKhauModel> listNK = nhanKhauDAO.findByName(ten);
+            ThanhVienCuaHoModel tvch = new ThanhVienCuaHoModel();
+            HoKhauModel hk = new HoKhauModel();
+            PhiVeSinhModel pvs = new PhiVeSinhModel();
+            if (listNK.isEmpty()) {
+                JOptionPane.showMessageDialog(PhiVS.this, "Không tìm thấy kết quả nào!");
+            } else {
+                for (NhanKhauModel nhanKhauModel : listNK) {
+                    tvch = tvchDAO.findByIdNhanKhau(nhanKhauModel.getID());
+                    if (tvch.getQuanHeVoiChuHo().equals("Chủ hộ")) {
+                        hk = hkdao.findByIdHoKhau(tvch.getIdHoKhau());
+                        pvs = phiVeSinhDAO.findByIDHK(hk.getID());
+                        String nam = pvs.getNam().toString();
+                        if (nam.equalsIgnoreCase(jComboBox1.getSelectedItem().toString())) {
+                            dtm.addRow(new Object[]{pvs.getIdPhiVeSinh(), hk.getMaHoKhau(),
+                                nhanKhauModel.getHoTen(), pvs.getSoNhanKhau(), pvs.getDaThu()});
+                        } else {
+                            JOptionPane.showMessageDialog(PhiVS.this, "Không tìm thấy kết quả nào!");
+                        }
+                    }
                 }
             }
-        } else {
-            setData();
         }
     }//GEN-LAST:event_searchjButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        jTextField1.setText("");
+        jLabel14.setText("* Nhập tên chủ hộ cần tìm kiếm!");
+        jLabel14.setForeground(Color.black);
         dtm.setRowCount(0);
         setData();
     }//GEN-LAST:event_jButton1ActionPerformed
