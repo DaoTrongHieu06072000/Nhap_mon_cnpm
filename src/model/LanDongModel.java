@@ -12,9 +12,27 @@ import java.sql.Timestamp;
  * @author NgoQuang
  */
 public class LanDongModel {
+
     private Integer idLanDong;
     private Integer lanThu;
-    private Timestamp ngay;
+    private Timestamp ngayDong;
+
+    public Timestamp getNgayDong() {
+        return ngayDong;
+    }
+
+    public void setNgayDong(Timestamp ngayDong) {
+        this.ngayDong = ngayDong;
+    }
+
+    public Timestamp getHanDong() {
+        return hanDong;
+    }
+
+    public void setHanDong(Timestamp hanDong) {
+        this.hanDong = hanDong;
+    }
+    private Timestamp hanDong;
 
     public Integer getIdLanDong() {
         return idLanDong;
@@ -32,11 +50,4 @@ public class LanDongModel {
         this.lanThu = lanThu;
     }
 
-    public Timestamp getNgay() {
-        return ngay;
-    }
-
-    public void setNgay(Timestamp ngay) {
-        this.ngay = ngay;
-    }
 }

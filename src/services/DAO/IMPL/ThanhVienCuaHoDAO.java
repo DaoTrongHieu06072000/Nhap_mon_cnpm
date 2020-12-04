@@ -24,8 +24,6 @@ public class ThanhVienCuaHoDAO extends AbstractDAO<ThanhVienCuaHoModel> implemen
     public ThanhVienCuaHoModel findByIdNhanKhau(int idNhanKhau) {
         String sql = "SELECT * FROM thanh_vien_cua_ho WHERE idNhanKhau = ?";
         List<ThanhVienCuaHoModel> thanhVienCuaHoModels = query(sql, new ThanhVienCuaHoMapper(), idNhanKhau);
-        return thanhVienCuaHoModels.isEmpty() ? null : thanhVienCuaHoModels.get(0);
-
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return thanhVienCuaHoModels.isEmpty()? null:thanhVienCuaHoModels.get(0);
     }
 }
