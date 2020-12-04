@@ -16,5 +16,6 @@ public interface ILanDong extends GenericDAO<LanDongModel> {
     LanDongModel findbyLanDongAndNam(int lan, int nam);
     List<LanDongModel> findAll();
     Long save(LanDongModel lanDongModel);
+    int getTotalItem(String nam);
 
 }

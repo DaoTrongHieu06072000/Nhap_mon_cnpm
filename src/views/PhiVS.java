@@ -470,6 +470,8 @@ public class PhiVS extends javax.swing.JPanel {
                 String IDphivs = String.valueOf(pvsjTable1.getValueAt(row, 0));
                 PhiVeSinhModel pvsm = phiVeSinhDAO.findById(IDphivs);
                 pvsm.setDaThu(1);
+//                String date = java.time.LocalDate.now().toString();
+//                pvsm.setNgayNop(date);
                 phiVeSinhDAO.update(pvsm);
                 JOptionPane.showMessageDialog(PhiVS.this, "Thu thành công!");
                 dtm.setRowCount(0);

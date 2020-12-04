@@ -5,7 +5,7 @@
  */
 package model;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
@@ -15,24 +15,24 @@ public class LanDongModel {
 
     private Integer idLanDong;
     private Integer lanThu;
-    private Timestamp ngayDong;
+    private Date ngayBD;
+    private Date ngayKT;
 
-    public Timestamp getNgayDong() {
-        return ngayDong;
+    public Date getNgayBD() {
+        return ngayBD;
     }
 
-    public void setNgayDong(Timestamp ngayDong) {
-        this.ngayDong = ngayDong;
+    public void setNgayBD(Date ngayBD) {
+        this.ngayBD = ngayBD;
     }
 
-    public Timestamp getHanDong() {
-        return hanDong;
+    public Date getNgayKT() {
+        return ngayKT;
     }
 
-    public void setHanDong(Timestamp hanDong) {
-        this.hanDong = hanDong;
+    public void setNgayKT(Date ngayKT) {
+        this.ngayKT = ngayKT;
     }
-    private Timestamp hanDong;
 
     public Integer getIdLanDong() {
         return idLanDong;

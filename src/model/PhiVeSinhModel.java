@@ -6,6 +6,7 @@
 package model;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
@@ -16,7 +17,7 @@ public class PhiVeSinhModel {
     private Integer idHoKhau;
     private Integer SoNhanKhau;
     private Integer phiVeSinh;
-    private Timestamp ngayNop;
+    private Date ngayNop;
     private Integer daThu;
     private Integer Thang;
     private Integer Nam;
@@ -53,7 +54,7 @@ public class PhiVeSinhModel {
         this.phiVeSinh = phiVeSinh;
     }
 
-    public Timestamp getNgayNop() {
+    public Date getNgayNop() {
         return ngayNop;
     }
 

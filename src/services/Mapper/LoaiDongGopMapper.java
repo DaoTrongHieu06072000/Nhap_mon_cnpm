@@ -12,7 +12,7 @@ public class LoaiDongGopMapper implements RowMapper {
 
             LoaiDongGopModel loaiDongGop = new LoaiDongGopModel();
             loaiDongGop.setCode(rs.getString("code"));
-            loaiDongGop.setIdLoaiDongGop(rs.getInt("idLoaiDongGop"));
+            loaiDongGop.setIdLoaiDongGop(rs.getInt("idloai_dong_gop"));
             loaiDongGop.setName(rs.getString("name"));
             return loaiDongGop;
         }catch (SQLException e){

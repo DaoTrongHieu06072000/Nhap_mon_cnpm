@@ -18,7 +18,7 @@ public class LanDongDAO extends AbstractDAO<LanDongModel> implements ILanDong{
 
     @Override
     public LanDongModel findbyLanDongAndNam(int lan, int nam) {
-         String sql = "SELECT * FROM lan_dong WHERE lan_thu = ? AND ngay_dong Like ?";
+         String sql = "SELECT * FROM lan_dong WHERE lan_thu = ? AND ngay_ket_thuc Like ?";
          String namS = "%" + nam + "%";
          List<LanDongModel> lanDongModels = query(sql, new LanDongMapper(), lan, namS);
          return lanDongModels.isEmpty()? null: lanDongModels.get(0);
@@ -32,8 +32,15 @@ public class LanDongDAO extends AbstractDAO<LanDongModel> implements ILanDong{
 
     @Override
     public Long save(LanDongModel lanDongModel) {
-         String sql = "INSERT INTO lan_dong (lan_thu, ngay_dong, han_dong)  VALUES (?, ?, ?)";
-        return insert(sql, lanDongModel.getLanThu(), lanDongModel.getNgayDong(), lanDongModel.getHanDong());
+         String sql = "INSERT INTO lan_dong (lan_thu, ngay_bat_dau, ngay_ket_thuc)  VALUES (?, ?, ?)";
+        return insert(sql, lanDongModel.getLanThu(), lanDongModel.getNgayBD(), lanDongModel.getNgayKT());
+    }
+
+    @Override
+    public int getTotalItem(String nam) {
+        String sql = "SELECT COUNT(*) FROM lan_dong WHERE ngay_ket_thuc LIKE ?";
+        String namS = "%" + nam + "%";
+        return count(sql, namS);
     }
     
 }
