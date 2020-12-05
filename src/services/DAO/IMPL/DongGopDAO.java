@@ -37,4 +37,10 @@ public class DongGopDAO extends AbstractDAO<DongGopModel> implements IDongGopDAO
         String sql = "SELECT COUNT(*) FROM phi_dong_gop";
         return count(sql);
     }
+
+    @Override
+    public List<DongGopModel> findAllYear() {
+        String sql = "SELECT * FROM phi_dong_gop GROUP BY year(ngayDong)";
+        return query(sql, new DongGopMapper());
+    }
 }

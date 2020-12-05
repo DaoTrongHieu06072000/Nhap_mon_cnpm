@@ -42,5 +42,26 @@ public class LanDongDAO extends AbstractDAO<LanDongModel> implements ILanDong{
         String namS = "%" + nam + "%";
         return count(sql, namS);
     }
+
+    @Override
+    public List<LanDongModel> findAllDot(String nam) {
+        String sql = "SELECT * FROM lan_dong WHERE ngay_ket_thuc LIKE ? GROUP BY lan_thu";
+        String namS = "%" + nam + "%";
+        return query(sql, new LanDongMapper(), namS);
+    }
+
+    @Override
+    public List<LanDongModel> findByNamAndLanThu(String nam, String lanThu) {
+        String sql = "SELECT * FROM lan_dong WHERE ngay_ket_thuc LIKE ? AND lan_thu = ?";
+        String namS = "%" + nam + "%";
+        return query(sql, new LanDongMapper(), namS, lanThu);
+    }
+    
+    public static void main(String[] args) {
+        LanDongDAO lanDongDAO = new LanDongDAO();
+        LanDongModel lanDongModel = new LanDongModel();
+        lanDongModel = lanDongDAO.findbyLanDongAndNam(1, 2020);
+        System.out.println(lanDongModel.getNgayBD());
+    }
     
 }

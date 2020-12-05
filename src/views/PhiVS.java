@@ -111,6 +111,11 @@ public class PhiVS extends javax.swing.JPanel {
                 jComboBox1ItemStateChanged(evt);
             }
         });
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("Năm:");
@@ -168,6 +173,11 @@ public class PhiVS extends javax.swing.JPanel {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 AddnewDSjButton1MouseExited(evt);
+            }
+        });
+        AddnewDSjButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddnewDSjButton1ActionPerformed(evt);
             }
         });
 
@@ -568,6 +578,14 @@ public class PhiVS extends javax.swing.JPanel {
         // TODO add your handling code here:
         jButton1.setBackground(new Color(255, 153, 0));
     }//GEN-LAST:event_jButton1MouseExited
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void AddnewDSjButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddnewDSjButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AddnewDSjButton1ActionPerformed
 
     /**
      * @param args the command line arguments

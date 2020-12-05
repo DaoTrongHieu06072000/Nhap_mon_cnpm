@@ -9,4 +9,5 @@ public interface IDongGopDAO extends GenericDAO<DongGopModel> {
     Long save(DongGopModel dongGopModel);
     void update(DongGopModel updateDonggop);
     int getTotalItem();
+    List<DongGopModel> findAllYear();
 }

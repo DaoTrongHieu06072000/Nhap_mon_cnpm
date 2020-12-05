@@ -1,6 +1,7 @@
 package services.DAO;
 
 import java.util.List;
+import model.DongGopModel;
 import model.LoaiDongGopModel;
 
 public interface ILoaiDongGopDAO extends GenericDAO<LoaiDongGopModel> {
@@ -10,4 +11,5 @@ public interface ILoaiDongGopDAO extends GenericDAO<LoaiDongGopModel> {
     List<LoaiDongGopModel> findAll();
     Long save(LoaiDongGopModel loaiDongGopModel);
     void update(LoaiDongGopModel updateLoaiDongGop);
+    
 }
