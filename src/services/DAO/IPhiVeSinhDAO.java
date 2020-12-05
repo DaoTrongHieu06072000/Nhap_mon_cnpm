@@ -12,4 +12,5 @@ public interface IPhiVeSinhDAO extends GenericDAO<PhiVeSinhModel> {
     PhiVeSinhModel findById(String id);
     int getTotalItem();
     PhiVeSinhModel findByIDHK(int idHK);
+    List<PhiVeSinhModel> taoListMoi(int nam);
 }

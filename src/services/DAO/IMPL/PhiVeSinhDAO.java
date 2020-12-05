@@ -5,6 +5,7 @@ import services.Mapper.PhiVeSinhMapper;
 
 import java.util.List;
 import model.PhiVeSinhModel;
+import model.ThanhVienCuaHoModel;
 
 public class PhiVeSinhDAO extends AbstractDAO<PhiVeSinhModel> implements IPhiVeSinhDAO {
 
@@ -64,6 +65,25 @@ public class PhiVeSinhDAO extends AbstractDAO<PhiVeSinhModel> implements IPhiVeS
         List<PhiVeSinhModel> phiVeSinhModels = query(sql, new PhiVeSinhMapper(), idHK);
         return phiVeSinhModels.isEmpty()? null: phiVeSinhModels.get(0);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void taoListMoi(int nam) {
+        PhiVeSinhModel phiVeSinhModel = new PhiVeSinhModel();
+        phiVeSinhModel.setNam(nam);
+        ThanhVienCuaHoDAO listThanhVienDAO = new ThanhVienCuaHoDAO();
+        List<ThanhVienCuaHoModel> listThanhVien = listThanhVienDAO.findAll();
+        for (ThanhVienCuaHoModel thanhVienCuaHoModel : listThanhVien) {
+            if (thanhVienCuaHoModel.getQuanHeVoiChuHo().equals("Chủ hộ")) {
+                phiVeSinhModel.setIdHoKhau(thanhVienCuaHoModel.getIdHoKhau());
+                phiVeSinhModel.setSoNhanKhau(listThanhVienDAO.DemThanhVien(thanhVienCuaHoModel.getIdHoKhau()));
+                phiVeSinhModel.setPhiVeSinh(phiVeSinhModel.getSoNhanKhau()*72000);
+                phiVeSinhModel.setDaThu(0);
+                save(phiVeSinhModel);
+            }
+            
+           
+        }
     }
     
 }
