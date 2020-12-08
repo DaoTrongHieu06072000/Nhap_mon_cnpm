@@ -18,7 +18,7 @@ public class PhiVeSinhDAO extends AbstractDAO<PhiVeSinhModel> implements IPhiVeS
     @Override
     public Long save(PhiVeSinhModel phiVeSinhModel) {
         StringBuilder sql = new StringBuilder("INSERT INTO phi_ve_sinh (idHoKhau, phiVeSinh, ");
-        sql.append("ngayNop, Da_thu, SoNhanKhau, Thang, Nam");
+        sql.append("ngayNop, Da_thu, SoNhanKhau, Thang, Nam)");
         sql.append(" VALUES (?, ?, ?, ?, ?, ?, ?)");
         return insert(sql.toString(), phiVeSinhModel.getIdHoKhau(), phiVeSinhModel.getPhiVeSinh(), phiVeSinhModel.getNgayNop(),
                 phiVeSinhModel.getDaThu(), phiVeSinhModel.getSoNhanKhau(), phiVeSinhModel.getThang(), phiVeSinhModel.getNam());

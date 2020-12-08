@@ -57,11 +57,11 @@ public class LanDongDAO extends AbstractDAO<LanDongModel> implements ILanDong{
         return query(sql, new LanDongMapper(), namS, lanThu);
     }
     
-    public static void main(String[] args) {
-        LanDongDAO lanDongDAO = new LanDongDAO();
-        LanDongModel lanDongModel = new LanDongModel();
-        lanDongModel = lanDongDAO.findbyLanDongAndNam(1, 2020);
-        System.out.println(lanDongModel.getNgayBD());
-    }
+//    public static void main(String[] args) {
+//        LanDongDAO lanDongDAO = new LanDongDAO();
+//        LanDongModel lanDongModel = new LanDongModel();
+//        lanDongModel = lanDongDAO.findbyLanDongAndNam(1, 2020);
+//        System.out.println(lanDongModel.getNgayBD());
+//    }
     
 }

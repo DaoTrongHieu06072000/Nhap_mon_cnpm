@@ -6,21 +6,19 @@
 package views;
 
 import java.awt.Color;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import jdk.nashorn.internal.objects.NativeString;
 import model.DongGopModel;
 import model.HoKhauModel;
-import model.LanDongModel;
 import model.SuKienModel;
 import model.NhanKhauModel;
 import model.PhiVeSinhModel;
+import model.ThanhVienCuaHoModel;
 import services.DAO.IMPL.DongGopDAO;
 import services.DAO.IMPL.HoKhauDAO;
-import services.DAO.IMPL.LanDongDAO;
 import services.DAO.IMPL.SuKienDAO;
 import services.DAO.IMPL.NhanKhauDAO;
 import services.DAO.IMPL.PhiVeSinhDAO;
@@ -31,7 +29,7 @@ import services.DAO.IMPL.ThanhVienCuaHoDAO;
  * @author sonso
  */
 public class PhiDongGop extends javax.swing.JPanel {
-
+    
     ThanhVienCuaHoDAO tvchDAO = new ThanhVienCuaHoDAO();
     PhiVeSinhDAO phiVeSinhDAO = new PhiVeSinhDAO();
     HoKhauDAO hkdao = new HoKhauDAO();
@@ -41,59 +39,48 @@ public class PhiDongGop extends javax.swing.JPanel {
     String suKien;
     DefaultTableModel dtm = new DefaultTableModel();
     DongGopDAO phiDongGopDAO = new DongGopDAO();
-
+    
     private JFrame parentFrame;
-
+    
     public PhiDongGop(JFrame parentFrame) {
         this.parentFrame = parentFrame;
         initComponents();
         dtm.setRowCount(0);
+        String labels[] = {};
+        final DefaultComboBoxModel model = new DefaultComboBoxModel(labels);
+        jComboBoxSK.setModel(model);
+        nam = (String) jComboBoxNam.getSelectedItem();
         List<DongGopModel> listNam = phiDongGopDAO.findAllYear();
         for (DongGopModel p : listNam) {
             jComboBoxNam.addItem(p.getNgayDong().toString().substring(0, 4));
         }
         nam = (String) jComboBoxNam.getSelectedItem();
-
-        List<SuKienModel> listSuKien = skDAO.findAll();
-
-        for (SuKienModel suKienModel : listSuKien) {
-            jComboBoxSK.addItem(suKienModel.getName().toString());
-        }
-        suKien = (String) jComboBoxSK.getSelectedItem();
-
-        //setData();
     }
-
+    
     public void setData() {
+        dtm.setRowCount(0);
         int stt = 0;
         dtm = (DefaultTableModel) pdgjTable1.getModel();
+        nam = (String) jComboBoxNam.getSelectedItem();
+        suKien = (String) jComboBoxSK.getSelectedItem();
         List<DongGopModel> listPdg = phiDongGopDAO.findAll(nam);
-        List<SuKienModel> listSK = skDAO.findByName(suKien);
-        //jTextField2.setText(lanDongModels.get(0).getNgayBD().toString());
-        //jTextField3.setText(lanDongModels.get(0).getNgayKT().toString());
+        SuKienModel SKM = skDAO.findByNameAndNam(suKien, nam);
+        jTextFieldBD.setText("  "+SKM.getNgayBatDau().toString());
+        jTextFieldKT.setText("  "+SKM.getNgayKetThuc().toString());
+        int TongTien = 0;
         for (DongGopModel phiDongGopModel : listPdg) {
-            for (SuKienModel suKienModel : listSK) {
-                if (phiDongGopModel.getIdSuKien().toString().equals(suKienModel.getIdSuKien().toString())) {
-
-                    HoKhauModel a = hkdao.findByIdHoKhau(phiDongGopModel.getIdHoKhau());
-                    NhanKhauModel b = nhanKhauDAO.findById(a.getIdChuHo());
-                    dtm.addRow(new Object[]{++stt, a.getMaHoKhau(), b.getHoTen(), phiDongGopModel.getSoTien()});
-
-                }
+            if (phiDongGopModel.getIdSuKien().toString().equals(SKM.getIdSuKien().toString())) {
+                HoKhauModel a = hkdao.findByIdHoKhau(phiDongGopModel.getIdHoKhau());
+                NhanKhauModel b = nhanKhauDAO.findById(a.getIdChuHo());
+                dtm.addRow(new Object[]{++stt, "   " + a.getMaHoKhau(), "      "
+                    + b.getHoTen(), String.format("%,.0f", (double) phiDongGopModel.getSoTien()) + " vnđ"});
+                TongTien += phiDongGopModel.getSoTien();
             }
-
         }
-//        jLabel9.setText("");
-//        jLabel10.setText("");
-//        jLabel12.setText("");
-//        jLabel8.setText("");
-//        jLabel7.setText("");
-//        jTextField2.setText("");
-//        trangthai.setText("Trạng thái");
-//        trangthai.setBackground(Color.white);
-
+        jLabel12.setText(String.format("%,.0f", (double) TongTien));
+        jLabel11.setText("   " + String.valueOf(stt) + " hộ");
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -144,11 +131,13 @@ public class PhiDongGop extends javax.swing.JPanel {
 
         jTextFieldBD.setEditable(false);
         jTextFieldBD.setBackground(new java.awt.Color(255, 255, 255));
-        jTextFieldBD.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTextFieldBD.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTextFieldBD.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         jTextFieldKT.setEditable(false);
         jTextFieldKT.setBackground(new java.awt.Color(255, 255, 255));
-        jTextFieldKT.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTextFieldKT.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTextFieldKT.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel8.setText("Năm:");
@@ -200,21 +189,7 @@ public class PhiDongGop extends javax.swing.JPanel {
         pdgjTable1.setBackground(new java.awt.Color(255, 255, 204));
         pdgjTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "STT", "Mã Hộ Khẩu", "Tên chủ hộ", "Số tiền"
@@ -224,7 +199,7 @@ public class PhiDongGop extends javax.swing.JPanel {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -236,6 +211,17 @@ public class PhiDongGop extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(pdgjTable1);
+        if (pdgjTable1.getColumnModel().getColumnCount() > 0) {
+            pdgjTable1.getColumnModel().getColumn(0).setMinWidth(45);
+            pdgjTable1.getColumnModel().getColumn(0).setPreferredWidth(45);
+            pdgjTable1.getColumnModel().getColumn(0).setMaxWidth(45);
+            pdgjTable1.getColumnModel().getColumn(1).setMinWidth(90);
+            pdgjTable1.getColumnModel().getColumn(1).setPreferredWidth(90);
+            pdgjTable1.getColumnModel().getColumn(1).setMaxWidth(90);
+            pdgjTable1.getColumnModel().getColumn(2).setMinWidth(150);
+            pdgjTable1.getColumnModel().getColumn(2).setPreferredWidth(150);
+            pdgjTable1.getColumnModel().getColumn(2).setMaxWidth(150);
+        }
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 204));
         jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -422,7 +408,7 @@ public class PhiDongGop extends javax.swing.JPanel {
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel15)
                         .addGap(19, 19, 19)
@@ -451,6 +437,60 @@ public class PhiDongGop extends javax.swing.JPanel {
 
     private void SearchjButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchjButton1ActionPerformed
         // TODO add your handling code here:
+        dtm.setRowCount(0);
+        if (jTextField1.getText().equals("")) {            
+            setData();
+        } else { 
+            int cnt = 0;
+            String ten = jTextField1.getText();
+            List<NhanKhauModel> listNK = nhanKhauDAO.findByName(ten);
+            ThanhVienCuaHoModel tvch = new ThanhVienCuaHoModel();
+            HoKhauModel hk = new HoKhauModel();
+            SuKienModel SKM = skDAO.findByNameAndNam(suKien, nam);
+            List<DongGopModel> listPdg = phiDongGopDAO.findByIdSk(SKM.getIdSuKien());
+            if (listNK.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy kết quả nào!");
+            } else {
+                int stt = 0;
+                for (NhanKhauModel nhanKhauModel : listNK) {
+                    cnt++;
+                    tvch = tvchDAO.findByIdNhanKhau(nhanKhauModel.getID());
+                    if (tvch.getQuanHeVoiChuHo().equals("Chủ hộ")) {   
+                        
+                        hk = hkdao.findByIdHoKhau(tvch.getIdHoKhau());
+                        for (DongGopModel dongGopModel : listPdg) {                         
+                            if (dongGopModel.getIdHoKhau().equals(tvch.getIdHoKhau())) {
+                                dtm.addRow(new Object[]{++stt, hk.getMaHoKhau(),
+                                nhanKhauModel.getHoTen(), dongGopModel.getSoTien()});
+//                                dongGopModel.setSoTien(dongGopModel.getSoTien()+ Integer.valueOf(jTextField4.getText()));
+//                                phiDongGopDAO.update(dongGopModel);                                 
+                                break;
+                            }
+                        }
+
+                    }
+                }
+                System.out.println(cnt);
+                System.out.println(listNK.size());
+                if (cnt == listNK.size()) {
+                    stt = 0;
+                     for (NhanKhauModel nhanKhauModel : listNK) {
+                    tvch = tvchDAO.findByIdNhanKhau(nhanKhauModel.getID());
+                    if (tvch.getQuanHeVoiChuHo().equals("Chủ hộ")) {   
+                        
+                        hk = hkdao.findByIdHoKhau(tvch.getIdHoKhau());
+                                dtm.addRow(new Object[]{++stt, hk.getMaHoKhau(),
+                                nhanKhauModel.getHoTen(), 0});
+                           
+                                break;
+                            }
+                        }
+                }
+               
+
+                    }
+                }
+
     }//GEN-LAST:event_SearchjButton1ActionPerformed
 
     private void OKjButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKjButton2ActionPerformed
@@ -479,11 +519,20 @@ public class PhiDongGop extends javax.swing.JPanel {
 
     private void jComboBoxNamItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxNamItemStateChanged
         dtm.setRowCount(0);
+        String labels[] = {};
+        final DefaultComboBoxModel model = new DefaultComboBoxModel(labels);
+        jComboBoxSK.setModel(model);
         nam = (String) jComboBoxNam.getSelectedItem();
-        setData();
+        List<SuKienModel> listSuKien = skDAO.findAll(nam);
+        for (SuKienModel suKienModel : listSuKien) {
+            jComboBoxSK.addItem(suKienModel.getName().toString());
+        }
+        suKien = (String) jComboBoxSK.getSelectedItem();
+        //setData();
     }//GEN-LAST:event_jComboBoxNamItemStateChanged
 
     private void jComboBoxSKItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxSKItemStateChanged
+        
         dtm.setRowCount(0);
         suKien = (String) jComboBoxSK.getSelectedItem();
         setData();

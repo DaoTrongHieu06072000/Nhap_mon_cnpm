@@ -7,6 +7,7 @@ package views;
 
 import java.awt.Color;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -473,7 +474,7 @@ public class PhiVS extends javax.swing.JPanel {
         if (trangthai.getText().equalsIgnoreCase("trạng thái")) {
             JOptionPane.showMessageDialog(PhiVS.this, "Trạng thái thu phí!");
         } else if (trangthai.getText().equals("Chưa thu")) {
-            if (JOptionPane.showConfirmDialog(PhiVS.this, "Xác Nhận Thu Tiền?", "Xác Nhận Thu Tiền", JOptionPane.YES_NO_OPTION) == 0) {
+            if (JOptionPane.showConfirmDialog(null, "Xác Nhận Thu Tiền?", "Xác Nhận Thu Tiền", JOptionPane.YES_NO_OPTION) == 0) {
                 trangthai.setText("Đã thu");
                 trangthai.setBackground(Color.green);
                 int row = pvsjTable1.getSelectedRow();
@@ -489,7 +490,7 @@ public class PhiVS extends javax.swing.JPanel {
                 setData();
                 JOptionPane.showMessageDialog(PhiVS.this, "Thu thành công!");
             }
-        } else if(trangthai.getText().equals("Đã thu")) {
+        } else {
             if (JOptionPane.showConfirmDialog(PhiVS.this, "Hủy Xác Nhận Thu Tiền?", "Hủy Xác Nhận Thu Tiền", JOptionPane.YES_NO_OPTION) == 0) {
                 trangthai.setText("Chưa thu");
                 trangthai.setBackground(Color.red);
@@ -504,45 +505,13 @@ public class PhiVS extends javax.swing.JPanel {
                 setData();
                 JOptionPane.showMessageDialog(PhiVS.this, "Thao tác thành công!");
             }
-            //JOptionPane.showMessageDialog(PhiVS.this, "Hộ Đã Thu!", "Thông báo", 1);
         }
 
 
     }//GEN-LAST:event_trangthaiActionPerformed
 
     private void searchjButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchjButton3ActionPerformed
-        // TODO add your handling code here:
-        //jLabel14.setForeground(new Color(0, 255, 204));
-//        String ten = jTextField1.getText().toLowerCase();
-//        if (ten.equals("")) {
-//            dtm.setRowCount(0);
-//            jLabel14.setText("* Nhập tên chủ hộ cần tìm kiếm!");
-//            setData();
-//        }
-//        int row = pvsjTable1.getRowCount();
-//        if (row > 0) {
-//            for (int i = 0; i < row; i++) {
-//                jLabel14.setForeground(Color.BLACK);
-//                jLabel14.setText("* Nhập tên chủ hộ cần tìm kiếm!");
-//                String hoten = String.valueOf(pvsjTable1.getValueAt(i, 2)).toLowerCase();
-//                if (hoten.equalsIgnoreCase(ten)) {
-//                    String a1 = String.valueOf(pvsjTable1.getValueAt(i, 0));
-//                    String a2 = String.valueOf(pvsjTable1.getValueAt(i, 1));
-//                    String a3 = String.valueOf(pvsjTable1.getValueAt(i, 2));
-//                    String a4 = String.valueOf(pvsjTable1.getValueAt(i, 3));
-//                    int a5 = (Integer) pvsjTable1.getValueAt(i, 4);;
-//                    dtm.setRowCount(0);
-//                    dtm.addRow(new Object[]{a1, a2, a3, a4, a5});
-//                    break;
-//                } else {
-//                    //dtm.setRowCount(0);
-//                    jLabel14.setText("* Không có kết quả tương ứng!");
-//                    jLabel14.setForeground(Color.RED);
-//                }
-//            }
-//        } else {
-//            setData();
-//        }
+
 
         if (jTextField1.getText().equals("")) {
             dtm.setRowCount(0);
@@ -600,6 +569,26 @@ public class PhiVS extends javax.swing.JPanel {
 
     private void AddnewDSjButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddnewDSjButton1ActionPerformed
         // TODO add your handling code here:
+        int a = jComboBox1.getItemCount();
+        String b = jComboBox1.getItemAt(a - 1);
+        int c = Integer.valueOf(b) + 1;
+        if (JOptionPane.showConfirmDialog(PhiVS.this, "Tạo danh sách cho năm " + c + "?", "Tạo danh sách mới", JOptionPane.YES_NO_OPTION) == 0) {
+            List<PhiVeSinhModel> listPVS = phiVeSinhDAO.findByYear(b);
+            for (PhiVeSinhModel p : listPVS) {
+                p.setDaThu(0);
+                p.setNam(c);
+                phiVeSinhDAO.save(p);
+            }
+            JOptionPane.showMessageDialog(PhiVS.this, "Tạo danh sách thành công!");
+            String labels[] = {};
+            final DefaultComboBoxModel model = new DefaultComboBoxModel(labels);
+            jComboBox1.setModel(model);
+            List<PhiVeSinhModel> listNam = phiVeSinhDAO.getAllYear();
+            for (PhiVeSinhModel p : listNam) {
+                jComboBox1.addItem(p.getNam().toString());
+            }
+            nam = (String) jComboBox1.getSelectedItem();
+        }
     }//GEN-LAST:event_AddnewDSjButton1ActionPerformed
 
     /**

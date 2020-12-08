@@ -74,8 +74,8 @@ public class TrangChuController {
         }
         TongtienPhiDGJLabel.setText(String.format("%,.0f", Sum));
         //tong so dot
-        int dot = lanDongDAO.getTotalItem(nam);
-        tongSoDotMoJLabel.setText(dot + " đợt");
+//        int dot = lanDongDAO.getTotalItem(nam);
+//        tongSoDotMoJLabel.setText(dot + " đợt");
         //su kien
         
         //tongSoSKjJLabel.setText(String.valueOf(count) + " sự kiện");

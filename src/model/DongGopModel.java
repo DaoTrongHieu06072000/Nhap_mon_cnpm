@@ -43,16 +43,6 @@ public class DongGopModel {
         this.idSuKien = idSuKien;
     }
 
-   
-
-//    public Integer getIdLanDong() {
-//        return idLanDong;
-//    }
-//
-//    public void setIdLanDong(Integer idLanDong) {
-//        this.idLanDong = idLanDong;
-//    }
-
     public Timestamp getNgayDong() {
         return ngayDong;
     }

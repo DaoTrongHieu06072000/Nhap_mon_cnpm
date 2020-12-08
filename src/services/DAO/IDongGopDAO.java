@@ -10,4 +10,5 @@ public interface IDongGopDAO extends GenericDAO<DongGopModel> {
     void update(DongGopModel updateDonggop);
     int getTotalItem();
     List<DongGopModel> findAllYear();
+    List<DongGopModel> findByIdSk(int idSk);
 }
