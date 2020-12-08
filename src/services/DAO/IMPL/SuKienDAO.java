@@ -6,50 +6,50 @@
 package services.DAO.IMPL;
 
 import java.util.List;
-import model.LoaiDongGopModel;
+import model.SuKienModel;
 import services.DAO.ILoaiDongGopDAO;
-import services.Mapper.LoaiDongGopMapper;
+import services.Mapper.SuKienMapper;
 
 /**
  *
  * @author banbaa
  */
-public class LoaiDongGopDAO extends AbstractDAO<LoaiDongGopModel> implements ILoaiDongGopDAO {
+public class SuKienDAO extends AbstractDAO<SuKienModel> implements ILoaiDongGopDAO {
 
     @Override
-    public LoaiDongGopModel findByCode(String code) {
+    public SuKienModel findByCode(String code) {
         String sql = "SELECT * FROM loai_dong_gop WHERE code = ?";
-        List<LoaiDongGopModel> loaiDongGopModels = query(sql, new LoaiDongGopMapper(), code);
+        List<SuKienModel> loaiDongGopModels = query(sql, new SuKienMapper(), code);
         return loaiDongGopModels.isEmpty()? null:loaiDongGopModels.get(0);
     }
 
     @Override
-    public List<LoaiDongGopModel> findByName(String name) {
+    public List<SuKienModel> findByName(String name) {
         String sql = "SELECT * FROM loai_dong_gop WHERE name LIKE ?";
         String bien = "%" + name + "%";
-        return query(sql, new LoaiDongGopMapper(), bien);
+        return query(sql, new SuKienMapper(), bien);
     }
 
     @Override
-    public LoaiDongGopModel findByID(int id) {
+    public SuKienModel findByID(int id) {
         String sql = "SELECT * FROM loai_dong_gop WHERE id = ?";
-        List<LoaiDongGopModel> loaiDongGopModels = query(sql, new LoaiDongGopMapper(), id);
+        List<SuKienModel> loaiDongGopModels = query(sql, new SuKienMapper(), id);
         return loaiDongGopModels.isEmpty()? null : loaiDongGopModels.get(0);
     }
 
     @Override
-    public List<LoaiDongGopModel> findAll() {
+    public List<SuKienModel> findAll() {
         String sql = "SELECT * FROM loai_dong_gop";
-        return query(sql, new LoaiDongGopMapper());
+        return query(sql, new SuKienMapper());
     }
 
     @Override
-    public Long save(LoaiDongGopModel loaiDongGopModel) {
+    public Long save(SuKienModel loaiDongGopModel) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void update(LoaiDongGopModel updateLoaiDongGop) {
+    public void update(SuKienModel updateLoaiDongGop) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

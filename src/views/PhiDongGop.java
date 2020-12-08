@@ -15,13 +15,13 @@ import jdk.nashorn.internal.objects.NativeString;
 import model.DongGopModel;
 import model.HoKhauModel;
 import model.LanDongModel;
-import model.LoaiDongGopModel;
+import model.SuKienModel;
 import model.NhanKhauModel;
 import model.PhiVeSinhModel;
 import services.DAO.IMPL.DongGopDAO;
 import services.DAO.IMPL.HoKhauDAO;
 import services.DAO.IMPL.LanDongDAO;
-import services.DAO.IMPL.LoaiDongGopDAO;
+import services.DAO.IMPL.SuKienDAO;
 import services.DAO.IMPL.NhanKhauDAO;
 import services.DAO.IMPL.PhiVeSinhDAO;
 import services.DAO.IMPL.ThanhVienCuaHoDAO;
@@ -36,11 +36,9 @@ public class PhiDongGop extends javax.swing.JPanel {
     PhiVeSinhDAO phiVeSinhDAO = new PhiVeSinhDAO();
     HoKhauDAO hkdao = new HoKhauDAO();
     NhanKhauDAO nhanKhauDAO = new NhanKhauDAO();
-    LanDongDAO lanDongDAO = new LanDongDAO();
-    LoaiDongGopDAO ldgDAO = new LoaiDongGopDAO();
+    SuKienDAO skDAO = new SuKienDAO();
     String nam;
-    String dot;
-    String loaiDG;
+    String suKien;
     DefaultTableModel dtm = new DefaultTableModel();
     DongGopDAO phiDongGopDAO = new DongGopDAO();
 
@@ -52,47 +50,38 @@ public class PhiDongGop extends javax.swing.JPanel {
         dtm.setRowCount(0);
         List<DongGopModel> listNam = phiDongGopDAO.findAllYear();
         for (DongGopModel p : listNam) {
-            jComboBoxNam.addItem(p.getNgayDong().toString().substring(0,4));
+            jComboBoxNam.addItem(p.getNgayDong().toString().substring(0, 4));
         }
         nam = (String) jComboBoxNam.getSelectedItem();
-        List<LanDongModel> listDot = lanDongDAO.findAllDot(nam);
-        for (LanDongModel lanDongModel : listDot) {
-            jComboBoxDot.addItem(lanDongModel.getLanThu().toString());
+
+        List<SuKienModel> listSuKien = skDAO.findAll();
+
+        for (SuKienModel suKienModel : listSuKien) {
+            jComboBoxSK.addItem(suKienModel.getName().toString());
         }
-        dot = (String) jComboBoxDot.getSelectedItem();
-        List<LoaiDongGopModel> listLoaiDG = ldgDAO.findAll();
-        
-        for (LoaiDongGopModel loaiDongGopModel : listLoaiDG) {
-            jComboBoxSK.addItem(loaiDongGopModel.getName().toString());
-        }
-        loaiDG = (String) jComboBoxSK.getSelectedItem();
+        suKien = (String) jComboBoxSK.getSelectedItem();
 
         //setData();
     }
-    
-    
+
     public void setData() {
         int stt = 0;
         dtm = (DefaultTableModel) pdgjTable1.getModel();
         List<DongGopModel> listPdg = phiDongGopDAO.findAll(nam);
-        List<LoaiDongGopModel> loaiDg = ldgDAO.findByName(loaiDG);
-        List<LanDongModel> lanDongModels = lanDongDAO.findByNamAndLanThu(nam, dot);     
+        List<SuKienModel> listSK = skDAO.findByName(suKien);
         //jTextField2.setText(lanDongModels.get(0).getNgayBD().toString());
         //jTextField3.setText(lanDongModels.get(0).getNgayKT().toString());
         for (DongGopModel phiDongGopModel : listPdg) {
-            for (LoaiDongGopModel loaiDongGop: loaiDg) {
-                if (phiDongGopModel.getIdLoaiDonggop().toString().equals(loaiDongGop.getIdLoaiDongGop().toString())) {
-                    for (LanDongModel lanDongModel : lanDongModels) {
-                       if (phiDongGopModel.getIdLanDong().toString().equals(lanDongModel.getIdLanDong().toString())) {
-                            HoKhauModel a = hkdao.findByIdHoKhau(phiDongGopModel.getIdHoKhau());
-                            NhanKhauModel b = nhanKhauDAO.findById(a.getIdChuHo());
-                            dtm.addRow(new Object[]{++stt, a.getMaHoKhau(), b.getHoTen(), phiDongGopModel.getSoTien()});
-                    } 
-                    }
-                    
+            for (SuKienModel suKienModel : listSK) {
+                if (phiDongGopModel.getIdSuKien().toString().equals(suKienModel.getIdSuKien().toString())) {
+
+                    HoKhauModel a = hkdao.findByIdHoKhau(phiDongGopModel.getIdHoKhau());
+                    NhanKhauModel b = nhanKhauDAO.findById(a.getIdChuHo());
+                    dtm.addRow(new Object[]{++stt, a.getMaHoKhau(), b.getHoTen(), phiDongGopModel.getSoTien()});
+
                 }
             }
-           
+
         }
 //        jLabel9.setText("");
 //        jLabel10.setText("");
@@ -115,8 +104,6 @@ public class PhiDongGop extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jTextFieldBD = new javax.swing.JTextField();
         jTextFieldKT = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jComboBoxDot = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         jComboBoxNam = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
@@ -137,6 +124,7 @@ public class PhiDongGop extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 204, 102));
         setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Quản Lý Phí Đóng Góp", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 18))); // NOI18N
@@ -161,16 +149,6 @@ public class PhiDongGop extends javax.swing.JPanel {
         jTextFieldKT.setEditable(false);
         jTextFieldKT.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldKT.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel7.setText("Đợt số:");
-
-        jComboBoxDot.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jComboBoxDot.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBoxDotItemStateChanged(evt);
-            }
-        });
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel8.setText("Năm:");
@@ -371,6 +349,10 @@ public class PhiDongGop extends javax.swing.JPanel {
         jPanel2.add(jLabel14);
         jLabel14.setBounds(150, 60, 90, 40);
 
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel15.setText("Chi Tiết");
+        jLabel15.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -401,11 +383,6 @@ public class PhiDongGop extends javax.swing.JPanel {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBoxDot, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addGap(29, 29, 29)
@@ -419,33 +396,38 @@ public class PhiDongGop extends javax.swing.JPanel {
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jTextFieldBD, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(72, 72, 72)
+                                .addComponent(jLabel15))
+                            .addComponent(jLabel4))))
                 .addGap(15, 15, 15))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(jComboBoxNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jComboBoxSK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jComboBoxNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jComboBoxSK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jComboBoxDot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addComponent(jLabel15)
+                        .addGap(19, 19, 19)
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextFieldBD, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
@@ -460,8 +442,7 @@ public class PhiDongGop extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel10)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)))
                 .addGap(21, 21, 21)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
@@ -499,27 +480,14 @@ public class PhiDongGop extends javax.swing.JPanel {
     private void jComboBoxNamItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxNamItemStateChanged
         dtm.setRowCount(0);
         nam = (String) jComboBoxNam.getSelectedItem();
-        //dot = (String) jComboBox1.getSelectedItem();
-        dot = "1";
-        jTextFieldBD.setText(lanDongDAO.findByNamAndLanThu(nam, dot).get(0).getNgayBD().toString());
-        jTextFieldKT.setText(lanDongDAO.findByNamAndLanThu(nam, dot).get(0).getNgayKT().toString());
         setData();
     }//GEN-LAST:event_jComboBoxNamItemStateChanged
 
     private void jComboBoxSKItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxSKItemStateChanged
         dtm.setRowCount(0);
-        loaiDG = (String) jComboBoxSK.getSelectedItem();
+        suKien = (String) jComboBoxSK.getSelectedItem();
         setData();
     }//GEN-LAST:event_jComboBoxSKItemStateChanged
-
-    private void jComboBoxDotItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxDotItemStateChanged
-        dtm.setRowCount(0);
-        nam = "2020";
-        dot = (String) jComboBoxDot.getSelectedItem();
-        jTextFieldBD.setText(lanDongDAO.findByNamAndLanThu(nam, dot).get(0).getNgayBD().toString());
-        jTextFieldKT.setText(lanDongDAO.findByNamAndLanThu(nam, dot).get(0).getNgayKT().toString());
-        setData();
-    }//GEN-LAST:event_jComboBoxDotItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -528,7 +496,6 @@ public class PhiDongGop extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton OKjButton2;
     private javax.swing.JButton SearchjButton1;
-    private javax.swing.JComboBox<String> jComboBoxDot;
     private javax.swing.JComboBox<String> jComboBoxNam;
     private javax.swing.JComboBox<String> jComboBoxSK;
     private javax.swing.JLabel jLabel1;
@@ -537,12 +504,12 @@ public class PhiDongGop extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;

@@ -14,8 +14,8 @@ import java.sql.Timestamp;
 public class DongGopModel {
     private Integer idDongGop;
     private Integer idHoKhau;
-    private Integer idLoaiDonggop;
-    private Integer idLanDong;
+    private Integer idSuKien;
+    //private Integer idLanDong;
     private Timestamp ngayDong;
     private Integer soTien;
 
@@ -35,21 +35,23 @@ public class DongGopModel {
         this.idHoKhau = idHoKhau;
     }
 
-    public Integer getIdLoaiDonggop() {
-        return idLoaiDonggop;
+    public Integer getIdSuKien() {
+        return idSuKien;
     }
 
-    public void setIdLoaiDonggop(Integer idLoaiDonggop) {
-        this.idLoaiDonggop = idLoaiDonggop;
+    public void setIdSuKien(Integer idSuKien) {
+        this.idSuKien = idSuKien;
     }
 
-    public Integer getIdLanDong() {
-        return idLanDong;
-    }
+   
 
-    public void setIdLanDong(Integer idLanDong) {
-        this.idLanDong = idLanDong;
-    }
+//    public Integer getIdLanDong() {
+//        return idLanDong;
+//    }
+//
+//    public void setIdLanDong(Integer idLanDong) {
+//        this.idLanDong = idLanDong;
+//    }
 
     public Timestamp getNgayDong() {
         return ngayDong;
