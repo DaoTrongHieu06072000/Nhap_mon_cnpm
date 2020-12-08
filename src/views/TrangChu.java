@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import model.DongGopModel;
-import model.LoaiDongGopModel;
+import model.SuKienModel;
 import model.PhiVeSinhModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -23,7 +23,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import services.DAO.IMPL.DongGopDAO;
-import services.DAO.IMPL.LoaiDongGopDAO;
+import services.DAO.IMPL.SuKienDAO;
 import services.DAO.IMPL.PhiVeSinhDAO;
 
 /**
@@ -32,7 +32,7 @@ import services.DAO.IMPL.PhiVeSinhDAO;
  */
 public class TrangChu extends javax.swing.JPanel {
 
-    LoaiDongGopDAO loaiDongGopDAO = new LoaiDongGopDAO();
+    SuKienDAO loaiDongGopDAO = new SuKienDAO();
     PhiVeSinhDAO phiVeSinhDAO = new PhiVeSinhDAO();
     DongGopDAO dongGopDAO = new DongGopDAO();
     private TrangChuController trangChuController;
@@ -59,47 +59,47 @@ public class TrangChu extends javax.swing.JPanel {
         GraphjPanel1.setSize(600, 400);
 
         //biểu đồ đóng góp
-        ChartPanel chartPanel1 = new ChartPanel(createChart1());
-        GraphDGjPanel6.removeAll();
-        GraphDGjPanel6.add(chartPanel1, BorderLayout.CENTER);
-        GraphDGjPanel6.validate();
-        GraphDGjPanel6.setSize(600, 400);
+//        ChartPanel chartPanel1 = new ChartPanel(createChart1());
+//        GraphDGjPanel6.removeAll();
+//        GraphDGjPanel6.add(chartPanel1, BorderLayout.CENTER);
+//        GraphDGjPanel6.validate();
+//        GraphDGjPanel6.setSize(600, 400);
 
     }
 //data bieu do thi dong gop
 
-    public JFreeChart createChart1() {
-        JFreeChart barChart = ChartFactory.createBarChart(
-                "", "Sự kiện", "Số tiền(vnđ)",
-                createDataset1(), PlotOrientation.VERTICAL, false, false, false);
-        return barChart;
-    }
-
-    private CategoryDataset createDataset1() {
-        List<DongGopModel> listDG = dongGopDAO.findAll(nam);
-        final DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
-        ArrayList<Integer> listTien = new ArrayList<Integer>();
-        List<LoaiDongGopModel> listLDG = loaiDongGopDAO.findAll();
-        int count = 0;
-        for (LoaiDongGopModel loaiDongGopModel : listLDG) {
-            count++;
-            int sumSK = 0;
-            for (DongGopModel dongGop : listDG) {
-                if (dongGop.getIdLoaiDonggop() == loaiDongGopModel.getIdLoaiDongGop()) {
-                    sumSK += dongGop.getSoTien();
-                }
-            }
-            listTien.add(sumSK);
-        }
-        tongSoSKjJLabel.setText(String.valueOf(count) + " sự kiện");
-        int soSK = listTien.size();
-        if (soSK != 0) {
-            for (int i = 0; i < soSK; i++) {
-                dataset1.addValue((double) (listTien.get(i)), "", listLDG.get(i).getCode().toString());
-            }
-        }
-        return dataset1;
-    }
+//    public JFreeChart createChart1() {
+//        JFreeChart barChart = ChartFactory.createBarChart(
+//                "", "Sự kiện", "Số tiền(vnđ)",
+//                createDataset1(), PlotOrientation.VERTICAL, false, false, false);
+//        return barChart;
+//    }
+//
+//    private CategoryDataset createDataset1() {
+//        List<DongGopModel> listDG = dongGopDAO.findAll(nam);
+//        final DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
+//        ArrayList<Integer> listTien = new ArrayList<Integer>();
+//        List<SuKienModel> listLDG = loaiDongGopDAO.findAll();
+//        int count = 0;
+//        for (SuKienModel suKienModel : listLDG) {
+//            count++;
+//            int sumSK = 0;
+//            for (DongGopModel dongGop : listDG) {
+//                if (dongGop.getIdSuKien() == suKienModel.getIdSuKien()) {
+//                    sumSK += dongGop.getSoTien();
+//                }
+//            }
+//            listTien.add(sumSK);
+//        }
+//        tongSoSKjJLabel.setText(String.valueOf(count) + " sự kiện");
+//        int soSK = listTien.size();
+//        if (soSK != 0) {
+//            for (int i = 0; i < soSK; i++) {
+//                dataset1.addValue((double) (listTien.get(i)), "", listLDG.get(i).getCode().toString());
+//            }
+//        }
+//        return dataset1;
+//    }
 //data bieu do thu phi
 
     private JFreeChart createChart(PieDataset dataset) {
@@ -524,11 +524,11 @@ public class TrangChu extends javax.swing.JPanel {
         GraphjPanel1.setSize(600, 400);
 
         //biểu đồ đóng góp
-        ChartPanel chartPanel1 = new ChartPanel(createChart1());
-        GraphDGjPanel6.removeAll();
-        GraphDGjPanel6.add(chartPanel1, BorderLayout.CENTER);
-        GraphDGjPanel6.validate();
-        GraphDGjPanel6.setSize(600, 400);
+//        ChartPanel chartPanel1 = new ChartPanel(createChart1());
+//        GraphDGjPanel6.removeAll();
+//        GraphDGjPanel6.add(chartPanel1, BorderLayout.CENTER);
+//        GraphDGjPanel6.validate();
+//        GraphDGjPanel6.setSize(600, 400);
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
 

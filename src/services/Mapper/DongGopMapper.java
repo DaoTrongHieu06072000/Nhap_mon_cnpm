@@ -14,8 +14,8 @@ public class DongGopMapper implements RowMapper<DongGopModel> {
             DongGopModel dongGopModel = new DongGopModel();
             dongGopModel.setIdDongGop(rs.getInt("iddong_gop"));
             dongGopModel.setIdHoKhau(rs.getInt("idHoKhau"));
-            dongGopModel.setIdLoaiDonggop(rs.getInt("idLoaiDongGop"));
-            dongGopModel.setIdLanDong(rs.getInt("idLanDong"));
+            dongGopModel.setIdSuKien(rs.getInt("idsu_kien"));
+            //dongGopModel.setIdLanDong(rs.getInt("idLanDong"));
             dongGopModel.setNgayDong(rs.getTimestamp("ngayDong"));
             dongGopModel.setSoTien(rs.getInt("so_tien"));
             return dongGopModel;

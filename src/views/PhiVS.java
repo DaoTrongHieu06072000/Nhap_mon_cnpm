@@ -473,7 +473,7 @@ public class PhiVS extends javax.swing.JPanel {
         if (trangthai.getText().equalsIgnoreCase("trạng thái")) {
             JOptionPane.showMessageDialog(PhiVS.this, "Trạng thái thu phí!");
         } else if (trangthai.getText().equals("Chưa thu")) {
-            if (JOptionPane.showConfirmDialog(null, "Xác Nhận Thu Tiền?", "Xác Nhận Thu Tiền", JOptionPane.YES_NO_OPTION) == 0) {
+            if (JOptionPane.showConfirmDialog(PhiVS.this, "Xác Nhận Thu Tiền?", "Xác Nhận Thu Tiền", JOptionPane.YES_NO_OPTION) == 0) {
                 trangthai.setText("Đã thu");
                 trangthai.setBackground(Color.green);
                 int row = pvsjTable1.getSelectedRow();
@@ -483,13 +483,28 @@ public class PhiVS extends javax.swing.JPanel {
 //                String date = java.time.LocalDate.now().toString();
 //                pvsm.setNgayNop(date);
                 phiVeSinhDAO.update(pvsm);
-                JOptionPane.showMessageDialog(PhiVS.this, "Thu thành công!");
+                
                 dtm.setRowCount(0);
                 nam = (String) jComboBox1.getSelectedItem();
                 setData();
+                JOptionPane.showMessageDialog(PhiVS.this, "Thu thành công!");
             }
-        } else {
-            JOptionPane.showMessageDialog(PhiVS.this, "Hộ Đã Thu!", "Thông báo", 1);
+        } else if(trangthai.getText().equals("Đã thu")) {
+            if (JOptionPane.showConfirmDialog(PhiVS.this, "Hủy Xác Nhận Thu Tiền?", "Hủy Xác Nhận Thu Tiền", JOptionPane.YES_NO_OPTION) == 0) {
+                trangthai.setText("Chưa thu");
+                trangthai.setBackground(Color.red);
+                int row = pvsjTable1.getSelectedRow();
+                String IDphivs = String.valueOf(pvsjTable1.getValueAt(row, 0));
+                PhiVeSinhModel pvsm = phiVeSinhDAO.findById(IDphivs);
+                pvsm.setDaThu(0);
+                phiVeSinhDAO.update(pvsm);
+                
+                dtm.setRowCount(0);
+                nam = (String) jComboBox1.getSelectedItem();
+                setData();
+                JOptionPane.showMessageDialog(PhiVS.this, "Thao tác thành công!");
+            }
+            //JOptionPane.showMessageDialog(PhiVS.this, "Hộ Đã Thu!", "Thông báo", 1);
         }
 
 
