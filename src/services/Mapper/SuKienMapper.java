@@ -14,8 +14,9 @@ public class SuKienMapper implements RowMapper {
             suKienModel.setCode(rs.getString("code"));
             suKienModel.setIdSuKien(rs.getInt("id"));
             suKienModel.setName(rs.getString("name"));
-            suKienModel.setNgayBatDau(rs.getDate("ngay_bat_dau"));
-            suKienModel.setNgayKetThuc(rs.getDate("ngay_ket_thuc"));
+            suKienModel.setNgayBatDau(rs.getString("ngay_bat_dau"));
+            suKienModel.setNgayKetThuc(rs.getString("ngay_ket_thuc"));
+            suKienModel.setNam(rs.getString("nam"));
             return suKienModel;
         }catch (SQLException e){
             return null;

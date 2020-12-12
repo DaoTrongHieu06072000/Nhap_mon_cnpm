@@ -5,7 +5,8 @@
  */
 package model;
 
-import java.util.Date;
+
+
 
 /**
  *
@@ -15,8 +16,17 @@ public class SuKienModel {
     private Integer idSuKien;
     private String name;
     private String code;
-    private Date ngayBatDau;
-    private Date ngayKetThuc;
+    private String ngayBatDau;
+    private String ngayKetThuc;
+    private  String nam;
+
+    public String getNam() {
+        return nam;
+    }
+
+    public void setNam(String nam) {
+        this.nam = nam;
+    }
 
     public Integer getIdSuKien() {
         return idSuKien;
@@ -26,23 +36,21 @@ public class SuKienModel {
         this.idSuKien = idSuKien;
     }
 
-    public Date getNgayBatDau() {
+    public String getNgayBatDau() {
         return ngayBatDau;
     }
 
-    public void setNgayBatDau(Date ngayBatDau) {
+    public void setNgayBatDau(String ngayBatDau) {
         this.ngayBatDau = ngayBatDau;
     }
 
-    public Date getNgayKetThuc() {
+    public String getNgayKetThuc() {
         return ngayKetThuc;
     }
 
-    public void setNgayKetThuc(Date ngayKetThuc) {
+    public void setNgayKetThuc(String ngayKetThuc) {
         this.ngayKetThuc = ngayKetThuc;
     }
-    
-    
 
     public String getName() {
         return name;

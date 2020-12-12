@@ -1,7 +1,6 @@
 package services.DAO;
 
 import java.util.List;
-import model.DongGopModel;
 import model.SuKienModel;
 
 public interface ISuKienDAO extends GenericDAO<SuKienModel> {
@@ -11,6 +10,7 @@ public interface ISuKienDAO extends GenericDAO<SuKienModel> {
     List<SuKienModel> findAll(String nam);
     Long save(SuKienModel loaiDongGopModel);
     void update(SuKienModel updateLoaiDongGop);
+    void delete (String IDSK);
     SuKienModel findByNameAndNam(String name,String nam);
     
 }

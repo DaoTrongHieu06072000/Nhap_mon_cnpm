@@ -29,7 +29,7 @@ public class TrangChuController {
     DongGopDAO dongGopDAO = new DongGopDAO();
     ThanhVienCuaHoDAO thanhVienCuaHoDAO = new ThanhVienCuaHoDAO();
     LanDongDAO lanDongDAO = new LanDongDAO();
-    SuKienDAO loaiDongGopDAO = new SuKienDAO();
+    SuKienDAO skDAO = new SuKienDAO();
 
     private JLabel soHoDaThuJLabel;
     private JLabel TongTienPhiVSJLabel;
@@ -73,11 +73,8 @@ public class TrangChuController {
             Sum += dongGopModel.getSoTien();
         }
         TongtienPhiDGJLabel.setText(String.format("%,.0f", Sum));
-        //tong so dot
-//        int dot = lanDongDAO.getTotalItem(nam);
-//        tongSoDotMoJLabel.setText(dot + " đợt");
-        //su kien
         
-        //tongSoSKjJLabel.setText(String.valueOf(count) + " sự kiện");
+        List<SuKienModel> listsk = skDAO.findAll(nam);
+        tongSoSKjJLabel.setText(String.valueOf(listsk.size()));
     }
 }

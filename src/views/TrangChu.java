@@ -8,7 +8,6 @@ package views;
 import controller.TrangChuController;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import model.DongGopModel;
@@ -80,21 +79,17 @@ public class TrangChu extends javax.swing.JPanel {
         final DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
         List<DongGopModel> listDG = dongGopDAO.findAll(nam);
         List<SuKienModel> listSK = skdao.findAll(nam);
-        int TongTien = 0;
         int TienSK = 0;
         for (SuKienModel skm : listSK) {
-            //System.out.println("a");
             int idSK = skm.getIdSuKien();
             for (DongGopModel dongGopModel : listDG) {
                 if (dongGopModel.getIdSuKien() == idSK) {
                     TienSK += dongGopModel.getSoTien();
                 }
             }
-            //System.out.println(TienSK);
             String codeSk = skm.getCode();
             dataset1.addValue((double) TienSK, "", codeSk);
             TienSK = 0;
-            //TongTien += DGM.getSoTien();
         }
         return dataset1;
     }
@@ -505,7 +500,7 @@ public class TrangChu extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        new ChiTietPhiDG().setVisible(true);
+        new ChiTietPhiDG(nam).setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jCombobox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCombobox1ItemStateChanged
