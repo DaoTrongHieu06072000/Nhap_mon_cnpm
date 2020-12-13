@@ -46,7 +46,7 @@ public class SuKienDAO extends AbstractDAO<SuKienModel> implements ISuKienDAO {
     @Override
     public Long save(SuKienModel sk) {
         String sql = "INSERT INTO su_kien ( name,code, ngay_bat_dau,ngay_ket_thuc, nam) VALUES (?,?,?,?,?)";
-        return insert(sql, sk.getName(), sk.getCode(), sk.getNgayBatDau(), sk.getNgayKetThuc(), sk.getName());
+        return insert(sql, sk.getName(), sk.getCode(), sk.getNgayBatDau(), sk.getNgayKetThuc(), sk.getNam());
     }
 
     @Override

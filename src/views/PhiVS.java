@@ -56,7 +56,8 @@ public class PhiVS extends javax.swing.JPanel {
 
             HoKhauModel a = hkdao.findByIdHoKhau(phiVeSinhModel.getIdHoKhau());
             NhanKhauModel b = nhanKhauDAO.findById(a.getIdChuHo());
-            dtm.addRow(new Object[]{phiVeSinhModel.getIdPhiVeSinh(), a.getMaHoKhau(), b.getHoTen(), phiVeSinhModel.getSoNhanKhau(), phiVeSinhModel.getDaThu()});
+            dtm.addRow(new Object[]{phiVeSinhModel.getIdPhiVeSinh(), a.getMaHoKhau()
+                    , b.getHoTen(), phiVeSinhModel.getSoNhanKhau(), phiVeSinhModel.getDaThu()});
         }
         jLabel9.setText("");
         jLabel10.setText("");
@@ -520,9 +521,9 @@ public class PhiVS extends javax.swing.JPanel {
             dtm.setRowCount(0);
             String ten = jTextField1.getText();
             List<NhanKhauModel> listNK = nhanKhauDAO.findByName(ten);
-            ThanhVienCuaHoModel tvch = new ThanhVienCuaHoModel();
-            HoKhauModel hk = new HoKhauModel();
-            PhiVeSinhModel pvs = new PhiVeSinhModel();
+            ThanhVienCuaHoModel tvch ;
+            HoKhauModel hk;
+            PhiVeSinhModel pvs;
             if (listNK.isEmpty()) {
                 JOptionPane.showMessageDialog(PhiVS.this, "Không tìm thấy kết quả nào!");
             } else {

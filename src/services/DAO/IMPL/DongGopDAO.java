@@ -21,7 +21,7 @@ public class DongGopDAO extends AbstractDAO<DongGopModel> implements IDongGopDAO
         sql.append(" ngayDong, so_tien)");
         sql.append(" VALUES (?, ?, ?, ?)");
         return insert(sql.toString(), dongGopModel.getIdHoKhau(), dongGopModel.getIdSuKien(),
-            dongGopModel.getNgayDong(), dongGopModel.getSoTien());
+                dongGopModel.getNgayDong(), dongGopModel.getSoTien());
     }
 
     @Override
@@ -48,6 +48,13 @@ public class DongGopDAO extends AbstractDAO<DongGopModel> implements IDongGopDAO
     public List<DongGopModel> findByIdSk(int idSk) {
         String sql = "SELECT * FROM phi_dong_gop WHERE idsu_kien = ?";
         return query(sql, new DongGopMapper(), idSk);
+    }
+
+    @Override
+    public DongGopModel findByIdDG(String IDDG) {
+        String sql = "SELECT * FROM phi_dong_gop WHERE iddong_gop = ?";
+        List<DongGopModel> lista = query(sql, new DongGopMapper(), IDDG);
+        return lista.isEmpty() ? null : lista.get(0);
     }
 
 }

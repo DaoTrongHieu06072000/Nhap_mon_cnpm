@@ -7,6 +7,8 @@ package views;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -37,7 +39,7 @@ public class PhiDongGop extends javax.swing.JPanel {
     String nam;
     String suKien;
     DefaultTableModel dtm = new DefaultTableModel();
-    DongGopDAO phiDongGopDAO = new DongGopDAO();
+    DongGopDAO DongGopDAO = new DongGopDAO();
 
     private JFrame parentFrame;
 
@@ -49,7 +51,7 @@ public class PhiDongGop extends javax.swing.JPanel {
         final DefaultComboBoxModel model = new DefaultComboBoxModel(labels);
         jComboBoxSK.setModel(model);
         nam = (String) jComboBoxNam.getSelectedItem();
-        List<DongGopModel> listNam = phiDongGopDAO.findAllYear();
+        List<DongGopModel> listNam = DongGopDAO.findAllYear();
         for (DongGopModel p : listNam) {
             jComboBoxNam.addItem(p.getNgayDong().toString().substring(0, 4));
         }
@@ -66,16 +68,17 @@ public class PhiDongGop extends javax.swing.JPanel {
         dtm = (DefaultTableModel) pdgjTable1.getModel();
         nam = (String) jComboBoxNam.getSelectedItem();
         suKien = (String) jComboBoxSK.getSelectedItem();
-        List<DongGopModel> listPdg = phiDongGopDAO.findAll(nam);
+        List<DongGopModel> listPdg = DongGopDAO.findAll(nam);
         SuKienModel SKM = skDAO.findByNameAndNam(suKien, nam);
         jTextFieldBD.setText("  " + SKM.getNgayBatDau());
         jTextFieldKT.setText("  " + SKM.getNgayKetThuc());
         int TongTien = 0;
         for (DongGopModel phiDongGopModel : listPdg) {
             if (phiDongGopModel.getIdSuKien().toString().equals(SKM.getIdSuKien().toString())) {
+                ++stt;
                 HoKhauModel a = hkdao.findByIdHoKhau(phiDongGopModel.getIdHoKhau());
                 NhanKhauModel b = nhanKhauDAO.findById(a.getIdChuHo());
-                dtm.addRow(new Object[]{++stt, "   " + a.getMaHoKhau(), "      "
+                dtm.addRow(new Object[]{phiDongGopModel.getIdDongGop(), "   " + a.getMaHoKhau(), "      "
                     + b.getHoTen(), String.format("%,.0f", (double) phiDongGopModel.getSoTien()) + " vnđ"});
                 TongTien += phiDongGopModel.getSoTien();
             }
@@ -108,7 +111,7 @@ public class PhiDongGop extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         SearchjButton1 = new javax.swing.JButton();
-        jTextField4 = new javax.swing.JTextField();
+        sotienText = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         OKjButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -195,7 +198,7 @@ public class PhiDongGop extends javax.swing.JPanel {
 
             },
             new String [] {
-                "STT", "Mã Hộ Khẩu", "Tên chủ hộ", "Số tiền"
+                "ID", "Mã Hộ Khẩu", "Tên chủ hộ", "Số tiền"
             }
         ) {
             Class[] types = new Class [] {
@@ -254,9 +257,9 @@ public class PhiDongGop extends javax.swing.JPanel {
             }
         });
 
-        jTextField4.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
-        jTextField4.setForeground(new java.awt.Color(255, 0, 0));
-        jTextField4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        sotienText.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
+        sotienText.setForeground(new java.awt.Color(255, 0, 0));
+        sotienText.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel13.setText("Số tiền:");
@@ -293,7 +296,7 @@ public class PhiDongGop extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sotienText, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
                 .addComponent(OKjButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -311,7 +314,7 @@ public class PhiDongGop extends javax.swing.JPanel {
                                 .addContainerGap()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(OKjButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(sotienText, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel13))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
@@ -440,6 +443,8 @@ public class PhiDongGop extends javax.swing.JPanel {
 
     private void SearchjButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchjButton1ActionPerformed
         // TODO add your handling code here:
+
+        int mark = 0;
         dtm.setRowCount(0);
         if (jTextField1.getText().equals("")) {
             setData();
@@ -450,11 +455,10 @@ public class PhiDongGop extends javax.swing.JPanel {
             ThanhVienCuaHoModel tvch;
             HoKhauModel hk;
             SuKienModel SKM = skDAO.findByNameAndNam(suKien, nam);
-            List<DongGopModel> listPdg = phiDongGopDAO.findByIdSk(SKM.getIdSuKien());
+            List<DongGopModel> listPdg = DongGopDAO.findByIdSk(SKM.getIdSuKien());
             if (listNK.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Không tìm thấy kết quả nào!");
             } else {
-                int stt = 0;
                 for (NhanKhauModel nhanKhauModel : listNK) {
                     cnt++;
                     tvch = tvchDAO.findByIdNhanKhau(nhanKhauModel.getID());
@@ -463,7 +467,8 @@ public class PhiDongGop extends javax.swing.JPanel {
                         hk = hkdao.findByIdHoKhau(tvch.getIdHoKhau());
                         for (DongGopModel dongGopModel : listPdg) {
                             if (dongGopModel.getIdHoKhau().equals(tvch.getIdHoKhau())) {
-                                dtm.addRow(new Object[]{++stt, "   " + hk.getMaHoKhau(), "      "
+                                mark++;
+                                dtm.addRow(new Object[]{dongGopModel.getIdDongGop(), "   " + hk.getMaHoKhau(), "      "
                                     + nhanKhauModel.getHoTen(), String.format("%,.0f", (double) dongGopModel.getSoTien()) + " vnđ"});
 //                                dongGopModel.setSoTien(dongGopModel.getSoTien()+ Integer.valueOf(jTextField4.getText()));
 //                                phiDongGopDAO.update(dongGopModel);                                 
@@ -473,18 +478,17 @@ public class PhiDongGop extends javax.swing.JPanel {
 
                     }
                 }
-//                if (cnt == listNK.size()) {
-//                    stt = 0;
-//                    for (NhanKhauModel nhanKhauModel : listNK) {
-//                        tvch = tvchDAO.findByIdNhanKhau(nhanKhauModel.getID());
-//                        if (tvch.getQuanHeVoiChuHo().equals("Chủ hộ")) {
-//                            hk = hkdao.findByIdHoKhau(tvch.getIdHoKhau());
-//                            dtm.addRow(new Object[]{++stt, hk.getMaHoKhau(),
-//                                nhanKhauModel.getHoTen(), 0});
-//                            break;
-//                        }
-//                    }
-//                }
+                if (cnt == listNK.size() && mark == 0) {
+                    for (NhanKhauModel nhanKhauModel : listNK) {
+                        tvch = tvchDAO.findByIdNhanKhau(nhanKhauModel.getID());
+                        if (tvch.getQuanHeVoiChuHo().equals("Chủ hộ")) {
+                            hk = hkdao.findByIdHoKhau(tvch.getIdHoKhau());
+                            dtm.addRow(new Object[]{"", hk.getMaHoKhau(),
+                                nhanKhauModel.getHoTen(), 0 + " vnđ"});
+                            break;
+                        }
+                    }
+                }
 
             }
         }
@@ -493,6 +497,33 @@ public class PhiDongGop extends javax.swing.JPanel {
 
     private void OKjButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKjButton2ActionPerformed
         // TODO add your handling code here:
+        int row = pdgjTable1.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(PhiDongGop.this, "Hãy chọn hộ khẩu đóng góp!");
+        } else {
+            if (sotienText.getText().equalsIgnoreCase("")) {
+                JOptionPane.showMessageDialog(PhiDongGop.this, "Hãy nhập số tiền đóng góp!");
+            } else {
+                String pattern = "\\d$";
+                Pattern r = Pattern.compile(pattern);
+                Matcher m = r.matcher(sotienText.getText());
+                if (m.find()) {
+                    String idDG = String.valueOf(pdgjTable1.getValueAt(row,0));
+                    if(!idDG.equalsIgnoreCase("")){
+                        DongGopModel dgm = DongGopDAO.findByIdDG(idDG);
+                        int a =(int) dgm.getSoTien() + Integer.valueOf(sotienText.getText());
+                        dgm.setSoTien(a);
+                        DongGopDAO.update(dgm);
+                    
+                        dtm.setRowCount(0);
+                        setData();
+                        JOptionPane.showMessageDialog(PhiDongGop.this, "Thao tác thành công!");
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(PhiDongGop.this, "Tiền phải là số!");
+                }
+            }
+        }
     }//GEN-LAST:event_OKjButton2ActionPerformed
 
     private void SearchjButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SearchjButton1MouseEntered
@@ -523,7 +554,7 @@ public class PhiDongGop extends javax.swing.JPanel {
         nam = (String) jComboBoxNam.getSelectedItem();
         List<SuKienModel> listSuKien = skDAO.findAll(nam);
         for (SuKienModel suKienModel : listSuKien) {
-            jComboBoxSK.addItem(suKienModel.getName().toString());
+            jComboBoxSK.addItem(suKienModel.getName());
         }
         suKien = (String) jComboBoxSK.getSelectedItem();
         //setData();
@@ -564,9 +595,9 @@ public class PhiDongGop extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextFieldBD;
     private javax.swing.JTextField jTextFieldKT;
     private javax.swing.JTable pdgjTable1;
+    private javax.swing.JTextField sotienText;
     // End of variables declaration//GEN-END:variables
 }
